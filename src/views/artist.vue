@@ -106,7 +106,7 @@
 
 <script>
 var moment = require("moment");
-import { putObject } from '@/utils/uploadCos'
+import { putObject } from "@/utils/uploadCos";
 export default {
   components: {},
   data() {
@@ -149,13 +149,13 @@ export default {
           this.face = ossImg;
         }
       });
-    }, 
+    },
     // uploadHttp(data) {
     //   var file = data.file
-		//   putObject(file, (url, name) => {
+    //   putObject(file, (url, name) => {
     //     this.face = url;
     //   })
-		// },
+    // },
     editArtist(item) {
       this.name = item.name;
       this.face = item.face;
@@ -179,7 +179,7 @@ export default {
         this.artistBox = false;
         this.name = "";
         this.face = "";
-      this.desc = "";
+        this.desc = "";
         this.id = 0;
         this.$message.success("艺术家添加成功");
         this.getData();

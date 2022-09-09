@@ -3,20 +3,12 @@
  */
 let OSS = require("ali-oss");
 let config = {
-  region: "oss-cn-zhangjiakou",
+  region: "oss-cn-beijing",
   secure: true,
-  accessKeyId: "LTAI5tN9gzBKoFk3rPChCSbS",
-  accessKeySecret: "kJkAPg0kI1ap9ZZ1ESv6Srck6D36td",
-  bucket: "dundunimg",
+  accessKeyId: "",
+  accessKeySecret: "",
+  bucket: "334art",
 };
-
-//   let config = {
-//     region: "oss-cn-beijing",
-//     secure: true,
-//     accessKeyId: "LTAI5t8VdP4edbT9dEQ81T3m",
-//     accessKeySecret: "jerxbtpev79kDDW9AdBmPUKNcwQ29J",
-//     bucket: "trendart",
-//   };
 
 /**
  * 配置

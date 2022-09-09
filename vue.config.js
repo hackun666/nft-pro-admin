@@ -5,7 +5,7 @@ const BundleAnalyzerPlugin =
 
 module.exports = {
   // publicPath默认是/，根据项目实际需要调整
-  publicPath: process.env.NODE_ENV === "production" ? "/dundunadmin" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/admin334" : "/",
   productionSourceMap: false,
   devServer: {
     // openPage: "#/signin",
@@ -13,7 +13,7 @@ module.exports = {
     // 配置代理
     proxy: {
       "/": {
-        target: "//334art.com/",
+        target: "https://334art.com/",
         changeOrigin: true,
       },
     },

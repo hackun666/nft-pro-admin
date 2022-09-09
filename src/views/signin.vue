@@ -118,7 +118,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../assets/img/bg.jpg") no-repeat center;
+  background: url("../assets/img/bg.png") no-repeat center;
   background-size: cover;
   position: relative;
   .copy {
