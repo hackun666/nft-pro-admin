@@ -13,7 +13,7 @@ module.exports = {
     // 配置代理
     proxy: {
       "/": {
-        target: "https://334art.com/",
+        target: "https://m.334art.com/",
         changeOrigin: true,
       },
     },

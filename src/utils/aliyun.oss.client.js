@@ -5,8 +5,8 @@ let OSS = require("ali-oss");
 let config = {
   region: "oss-cn-beijing",
   secure: true,
-  accessKeyId: "",
-  accessKeySecret: "",
+  accessKeyId: "LTAI5tEXB1ZNDhm9fsqqDseN",
+  accessKeySecret: "qdswXYYmGDiMEtIlocWNkmu0akwFj1",
   bucket: "334art",
 };
 
