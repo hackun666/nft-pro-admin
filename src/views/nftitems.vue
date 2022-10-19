@@ -23,7 +23,17 @@
         <el-button type="success" @click="exportData">导出藏品数据</el-button>
       </div>
       <div class="fliter_item">
+        <el-button type="success" @click="exportRank">按持仓排名导出</el-button>
+      </div>
+      <div class="fliter_item">
         <el-button type="success" @click="transData">转移藏品</el-button>
+      </div>
+      <div class="fliter_item">
+        <el-button type="success" @click="batDestroy">批量销毁</el-button>
+      </div>
+
+      <div class="fliter_item" style="margin-left: auto">
+        <el-button type="danger" @click="resetNo">一键重新编码</el-button>
       </div>
     </div>
     <div class="eic_table">
@@ -36,10 +46,15 @@
       >
         <el-table-column
           align="center"
-          prop="no"
-          label="藏品编号"
+          prop="id"
+          label="系统ID"
           width="120"
         ></el-table-column>
+        <el-table-column label="藏品编号" align="center" width="120">
+          <template slot-scope="scope">
+            <p>{{ scope.row.no }} - {{ scope.row.max_no }}</p>
+          </template>
+        </el-table-column>
         <el-table-column label="藏品图片" align="center" width="120">
           <template slot-scope="scope">
             <img :src="scope.row.uri" width="80px" />
@@ -178,6 +193,43 @@
         <el-button type="primary" @click="saveTrans">确认转移</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="批量销毁藏品" :visible.sync="destroy_box" width="400px">
+      <el-form ref="ruleForm" label-width="120px">
+        <el-form-item label="用户手机号">
+          <el-input v-model="mobile" placeholder="用户手机号"></el-input>
+        </el-form-item>
+        <el-form-item label="请选择藏品">
+          <el-select v-model="box_id" placeholder="请选择">
+            <el-option
+              v-for="item in box_list"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+          <p class="tips">注意：盲盒类型的必须选</p>
+        </el-form-item>
+        <el-form-item label="销毁数量">
+          <el-input-number
+            v-model="num"
+            placeholder="销毁数量"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item label="操作密码">
+          <el-input
+            type="password"
+            v-model="password"
+            placeholder="操作密码"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="destroy_box = false">取 消</el-button>
+        <el-button type="primary" @click="saveDestroy">确认销毁</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -211,10 +263,15 @@ export default {
       name: "",
       tel: "",
       trans_box: false,
+      destroy_box: false,
       from_user: "",
       to_user: "",
       num: 1,
       password: "",
+      mobile: "",
+      nft_name: "",
+      box_list: [],
+      box_id: "",
     };
   },
   computed: {},
@@ -226,8 +283,64 @@ export default {
     }
   },
   methods: {
+    async getNft() {
+      let res = await this.$http.get("/manage/nftbox", {
+        nft_id: this.nft_id,
+        token: localStorage.dd_token,
+      });
+      this.box_list = res.box_list;
+    },
+    resetNo() {
+      this.$confirm("确认后藏品将重新编号且无法恢复, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.handleResetNo();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async handleResetNo() {
+      let res = await this.$http.post("/manage/resetno", {
+        id: this.nft_id,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("藏品编号信息更新成功");
+        this.getData();
+      } else {
+        this.$message.error(res.errmsg);
+      }
+    },
     transData() {
       this.trans_box = true;
+    },
+    batDestroy() {
+      this.getNft();
+      this.destroy_box = true;
+    },
+    async saveDestroy() {
+      let res = await this.$http.post("/manage/batdestroy", {
+        nft_id: this.nft_id,
+        box_id: this.box_id,
+        mobile: this.mobile,
+        num: this.num,
+        nft_name: this.nft_name,
+        password: this.password,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("操作成功");
+        this.destroy_box = false;
+      } else {
+        this.$message.error(res.errmsg);
+      }
     },
     async saveTrans() {
       let res = await this.$http.post("/manage/transnft", {
@@ -244,6 +357,14 @@ export default {
       } else {
         this.$message.error(res.errmsg);
       }
+    },
+    exportRank() {
+      window.open(
+        "/manage/exportnftrank?id=" +
+          this.nft_id +
+          "&token=" +
+          localStorage.dd_token
+      );
     },
     exportData() {
       window.open(

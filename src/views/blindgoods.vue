@@ -72,6 +72,9 @@
             <el-link @click="editbox(scope.row)">编辑</el-link>
             <el-divider direction="vertical"></el-divider>
             <el-link type="danger" @click="delebox(scope.row.id)">删除</el-link>
+            <el-link type="danger" @click="resetNo(scope.row.id)"
+              >一键重新编码</el-link
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -223,6 +226,33 @@ export default {
     }
   },
   methods: {
+    resetNo(box_id) {
+      this.$confirm("确认后藏品将重新编号且无法恢复, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.handleResetNo(box_id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async handleResetNo(box_id) {
+      let res = await this.$http.post("/manage/resetboxno", {
+        box_id: box_id,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("藏品编号信息更新成功");
+      } else {
+        this.$message.error(res.errmsg);
+      }
+    },
     create(id, name) {
       this.box_name = name;
       this.box_id = id;

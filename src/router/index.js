@@ -44,6 +44,8 @@ const rank = () => import("@/views/rank");
 const tradelog = () => import("@/views/tradelog");
 const rechargelog = () => import("@/views/rechargelog");
 
+const xilie = () => import("@/views/xilie");
+
 const router = new Router({
   routes: [
     // 首先是登录页的路由
@@ -156,6 +158,15 @@ const router = new Router({
             needLogin: true,
           },
           component: producer,
+        },
+        {
+          path: "xilie",
+          name: "xilie",
+          meta: {
+            title: "藏品系列",
+            needLogin: true,
+          },
+          component: xilie,
         },
         {
           path: "rank",

@@ -46,6 +46,7 @@
         <el-menu-item index="/producer">发行方列表</el-menu-item>
         <el-menu-item index="/kongtou">藏品空投记录</el-menu-item>
         <el-menu-item index="/translog">藏品转赠记录</el-menu-item>
+        <el-menu-item index="/xilie">藏品系列管理</el-menu-item>
       </el-submenu>
       <el-menu-item index="/orders">
         <i class="el-icon-s-finance"></i>

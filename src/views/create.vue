@@ -82,7 +82,7 @@
           placeholder="请填写藏品标题"
         ></el-input>
       </el-form-item> -->
-      
+
       <el-form-item label="藏品价格" prop="price" v-if="ruleForm.nft_type != 3">
         <el-input
           v-model="ruleForm.price"
@@ -101,7 +101,11 @@
           placeholder="库存数量"
         ></el-input-number>
       </el-form-item>
-      <el-form-item label="最多购买数量" prop="max_buy" v-if="ruleForm.nft_type != 3">
+      <el-form-item
+        label="最多购买数量"
+        prop="max_buy"
+        v-if="ruleForm.nft_type != 3"
+      >
         <el-input-number v-model="ruleForm.max_buy"></el-input-number>
       </el-form-item>
       <el-form-item label="开售时间" prop="sale_time">
@@ -113,7 +117,38 @@
           style="width: 100%"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="开启抽签" prop="prize_sta" v-if="ruleForm.nft_type != 3">
+      <el-form-item label="开启兑换" prop="exchange_sta">
+        <el-switch
+          v-model="ruleForm.exchange_sta"
+          active-value="1"
+          inactive-value="0"
+        >
+        </el-switch>
+        <p class="tips">
+          开启后商品仅可使用藏品进行兑换 请返回藏品列表进行兑换设置
+        </p>
+      </el-form-item>
+      <!-- <el-form-item label="再接再励兑换" v-if="ruleForm.exchange_sta == 1">
+        <el-switch
+          v-model="ruleForm.thx_sta"
+          active-value="1"
+          inactive-value="0"
+        >
+        </el-switch>
+        <p class="tips">开启后显示使用再接再励兑换</p>
+      </el-form-item>
+      <el-form-item label="再接再励数量" v-if="ruleForm.thx_sta == 1">
+        <el-input-number
+          v-model="ruleForm.thx_num"
+          placeholder="再接再励数量"
+        ></el-input-number>
+        <p class="tips">兑换一份藏品需要的再接再励数量</p>
+      </el-form-item> -->
+      <el-form-item
+        label="开启抽签"
+        prop="prize_sta"
+        v-if="ruleForm.nft_type != 3"
+      >
         <el-switch
           v-model="ruleForm.prize_sta"
           active-value="1"
@@ -141,7 +176,11 @@
         </el-form-item>
       </div>
 
-      <el-form-item label="白名单功能" prop="white_list_sta" v-if="ruleForm.nft_type != 3">
+      <el-form-item
+        label="白名单功能"
+        prop="white_list_sta"
+        v-if="ruleForm.nft_type != 3"
+      >
         <el-switch
           v-model="ruleForm.white_list_sta"
           active-value="1"
@@ -217,14 +256,18 @@
         </el-select>
       </el-form-item>
       <el-form-item label="交易手续费" prop="sxf">
-        <el-input-number :min="0" :max="100"
+        <el-input-number
+          :min="0"
+          :max="100"
           v-model="ruleForm.sxf"
           placeholder="请填写数字"
         ></el-input-number>
         <p class="tips">二级市场转售成功手续费 单位：%</p>
       </el-form-item>
       <el-form-item label="交易版税" prop="copy_fee">
-        <el-input-number :min="0" :max="100"
+        <el-input-number
+          :min="0"
+          :max="100"
           v-model="ruleForm.copy_fee"
           placeholder="请填写数字"
         ></el-input-number>
@@ -248,7 +291,7 @@
 <script>
 var moment = require("moment");
 import E from "wangeditor";
-import { putObject } from '@/utils/uploadCos'
+import { putObject } from "@/utils/uploadCos";
 export default {
   components: {},
   data() {
@@ -256,33 +299,33 @@ export default {
       typeList: [
         {
           value: "1",
-          label: "普通藏品"
+          label: "普通藏品",
         },
         {
           value: "2",
-          label: "盲盒"
+          label: "盲盒",
         },
         {
           value: "3",
-          label: "合成藏品"
-        }
+          label: "合成藏品",
+        },
       ],
       formatList: [
         {
           value: "1",
-          label: "图片"
+          label: "图片",
         },
         {
           value: "2",
-          label: "GIF动图"
+          label: "GIF动图",
         },
         {
           value: "3",
-          label: "视频"
+          label: "视频",
         },
         {
           value: "4",
-          label: "3D模型"
+          label: "3D模型",
         },
       ],
       isSave: false,
@@ -297,6 +340,7 @@ export default {
         price: "",
         total_num: "",
         max_buy: 1,
+        exchange_sta: "0",
         sale_time: "",
         content: "",
         author_face: "",
@@ -397,10 +441,10 @@ export default {
     },
     // uploadCover(data) {
     //   var file = data.file
-		//   putObject(file, (url, name) => {
+    //   putObject(file, (url, name) => {
     //     this.ruleForm.cover = url;
     //   })
-		// },
+    // },
     uploadAuthorFace({ file }) {
       this.$ossClient.ossPut(file).then((res) => {
         for (let index = 0; index < res.requestUrls.length; index++) {
@@ -411,10 +455,10 @@ export default {
     },
     // uploadAuthorFace(data) {
     //   var file = data.file
-		//   putObject(file, (url, name) => {
+    //   putObject(file, (url, name) => {
     //     this.ruleForm.author_face = url;
     //   })
-		// },
+    // },
     uploadContentSrc({ file }) {
       this.$ossClient.ossPut(file).then((res) => {
         for (let index = 0; index < res.requestUrls.length; index++) {
@@ -425,11 +469,11 @@ export default {
     },
     // uploadContentSrc(data) {
     //   var file = data.file
-		//   putObject(file, (url, name) => {
+    //   putObject(file, (url, name) => {
     //     this.ruleForm.content_src = url;
     //   })
-		// },
-    
+    // },
+
     uploadAsset({ file }) {
       this.$ossClient.ossPut(file).then((res) => {
         for (let index = 0; index < res.requestUrls.length; index++) {
@@ -442,10 +486,10 @@ export default {
     },
     // uploadAsset(data) {
     //   var file = data.file
-		//   putObject(file, (url, name) => {
+    //   putObject(file, (url, name) => {
     //     this.ruleForm.asset_url = url;
     //   })
-		// },
+    // },
     submitForm(formName) {
       console.log(this.ruleForm);
       this.$refs[formName].validate((valid) => {

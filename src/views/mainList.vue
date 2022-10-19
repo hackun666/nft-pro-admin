@@ -151,60 +151,79 @@
 
         <el-table-column align="center" label="操作" width="220" fixed="right">
           <template slot-scope="scope">
-            <el-link v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 0"
+            <el-link
+              v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 0"
               @click="rollDice(scope.row.id)"
               >开始抽签</el-link
             >
-            <el-divider v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 0"
+            <el-divider
+              v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 0"
               direction="vertical"
             ></el-divider>
-            <el-link v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 1"
+            <el-link
+              v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 1"
               @click="showWinner(scope.row.id)"
               >中签记录</el-link
             >
-            <el-divider v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 1"
+            <el-divider
+              v-if="scope.row.prize_sta == 1 && scope.row.roll_sta == 1"
               direction="vertical"
             ></el-divider>
-            <el-link v-if="scope.row.prize_sta == 1"
+            <el-link
+              v-if="scope.row.prize_sta == 1"
               @click="showRoll(scope.row.id)"
               >抽签记录</el-link
             >
-            <el-divider v-if="scope.row.prize_sta == 1"
+            <el-divider
+              v-if="scope.row.prize_sta == 1"
               direction="vertical"
             ></el-divider>
-             <el-link v-if="scope.row.nft_type == 3"
+            <el-link
+              v-if="scope.row.nft_type == 3"
               @click="comboBox(scope.row.id)"
               >合成设置</el-link
             >
-            <el-divider v-if="scope.row.nft_type == 3"
+
+            <el-divider
+              v-if="scope.row.nft_type == 3"
               direction="vertical"
             ></el-divider>
-            <el-link v-if="scope.row.nft_type == 2"
+            <el-link
+              v-if="scope.row.exchange_sta == 1"
+              @click="exchangeBox(scope.row.id)"
+              >兑换设置</el-link
+            >
+            <el-divider
+              v-if="scope.row.exchange_sta == 1"
+              direction="vertical"
+            ></el-divider>
+            <el-link
+              v-if="scope.row.nft_type == 2"
               @click="editBox(scope.row.id)"
               >盲盒设置</el-link
             >
-            <el-divider v-if="scope.row.nft_type == 2"
+            <el-divider
+              v-if="scope.row.nft_type == 2"
               direction="vertical"
             ></el-divider>
-            <el-link v-if="scope.row.nft_type == 2"
+            <el-link
+              v-if="scope.row.nft_type == 2"
               @click="showBoxList(scope.row.id)"
               >盲盒持有列表</el-link
             >
-            <el-divider v-if="scope.row.nft_type == 2"
-              direction="vertical"
-            ></el-divider>
-            <el-link 
-              @click="editNfts(scope.row.id)"
-              >藏品管理</el-link
-            >
             <el-divider
+              v-if="scope.row.nft_type == 2"
               direction="vertical"
             ></el-divider>
-            <el-link v-if="!scope.row.class_id && scope.row.task_id"
+            <el-link @click="editNfts(scope.row.id)">藏品管理</el-link>
+            <el-divider direction="vertical"></el-divider>
+            <el-link
+              v-if="!scope.row.class_id && scope.row.task_id"
               @click="updateNft(scope.row.id)"
               >更新链数据</el-link
             >
-            <el-divider v-if="!scope.row.class_id && scope.row.task_id"
+            <el-divider
+              v-if="!scope.row.class_id && scope.row.task_id"
               direction="vertical"
             ></el-divider>
             <el-link @click="openWhiteList(scope.row.id)">白名单</el-link>
@@ -409,8 +428,6 @@
       </el-form>
     </el-dialog>
 
-
-
     <el-dialog title="合成条件设置" :visible.sync="combo_box" width="800px">
       <div class="fliter">
         <div class="fliter_item">
@@ -434,14 +451,14 @@
             label="编号"
             width="80"
           ></el-table-column>
-        <el-table-column label="材料类型" align="center" width="120">
-          <template slot-scope="scope">
-            <div slot="reference" class="name-wrapper">
-              <el-tag v-if="scope.row.mode == 1">普通藏品</el-tag>
-              <el-tag v-if="scope.row.mode == 2">盲盒藏品</el-tag>
-            </div>
-          </template>
-        </el-table-column>
+          <el-table-column label="材料类型" align="center" width="120">
+            <template slot-scope="scope">
+              <div slot="reference" class="name-wrapper">
+                <el-tag v-if="scope.row.mode == 1">普通藏品</el-tag>
+                <el-tag v-if="scope.row.mode == 2">盲盒藏品</el-tag>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column
             align="center"
             prop="title"
@@ -462,11 +479,7 @@
         </el-table>
       </div>
     </el-dialog>
-    <el-dialog
-      title="合成条件设置"
-      :visible.sync="combo_add_box"
-      width="500px"
-    >
+    <el-dialog title="合成条件设置" :visible.sync="combo_add_box" width="500px">
       <el-form ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="合成模式">
           <el-radio-group v-model="comboForm.mode">
@@ -508,6 +521,109 @@
       </el-form>
     </el-dialog>
 
+    <el-dialog title="兑换规则设置" :visible.sync="exchange_box" width="800px">
+      <div class="fliter">
+        <div class="fliter_item">
+          <el-button icon="el-icon-edit" @click="exchange_add_box = true"
+            >新增兑换规则</el-button
+          >
+        </div>
+      </div>
+      <div class="eic_table">
+        <el-table
+          ref="multipleTable"
+          :data="exchange_rules"
+          height="400"
+          stripe
+          size="mini"
+          border
+        >
+          <el-table-column
+            align="center"
+            prop="id"
+            label="编号"
+            width="80"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="title"
+            label="需要藏品"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="need_num"
+            label="消耗份数"
+          ></el-table-column>
+          <el-table-column
+            align="center"
+            prop="get_num"
+            label="兑换份数"
+          ></el-table-column>
+          <el-table-column align="center" label="操作">
+            <template slot-scope="scope">
+              <el-link type="danger" @click="deleteExchangerule(scope.row.id)"
+                >删除</el-link
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
+
+    <el-dialog
+      title="新增兑换规则"
+      :visible.sync="exchange_add_box"
+      width="500px"
+    >
+      <el-form ref="ruleForm" label-width="120px" class="demo-ruleForm">
+        <el-form-item label="藏品类型">
+          <el-radio-group v-model="exchangeForm.mode">
+            <el-radio :label="1">普通藏品</el-radio>
+            <el-radio :label="2">盲盒藏品</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="需要藏品" v-if="exchangeForm.mode == 1">
+          <el-select v-model="exchangeForm.need_nft_id" placeholder="请选择">
+            <el-option
+              v-for="item in nft_list"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="需要藏品" v-else>
+          <el-select v-model="exchangeForm.need_nft_id" placeholder="请选择">
+            <el-option
+              v-for="item in nft_box"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="消耗份数">
+          <el-input-number
+            v-model="exchangeForm.need_num"
+            :min="1"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item label="可兑换份数">
+          <el-input-number
+            v-model="exchangeForm.get_num"
+            :min="1"
+          ></el-input-number>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="saveExchangeRule"
+            >保存设置</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
     <el-dialog title="中签名单" :visible.sync="winner_box" width="800px">
       <div class="eic_table">
         <el-table
@@ -543,7 +659,7 @@
         </el-table>
       </div>
     </el-dialog>
-<el-dialog title="参与抽签名单" :visible.sync="roll_box" width="800px">
+    <el-dialog title="参与抽签名单" :visible.sync="roll_box" width="800px">
       <div class="eic_table">
         <el-table
           ref="multipleTable"
@@ -571,15 +687,15 @@
             label="抽签时间"
           ></el-table-column>
           <el-table-column align="center" label="指定中签">
-          <template slot-scope="scope">
-            <el-switch
-              v-model="scope.row.win_sta"
-              active-value="1"
-              inactive-value="0"
-              @change="changeWinSta(scope.row.id)"
-            ></el-switch>
-          </template>
-        </el-table-column>
+            <template slot-scope="scope">
+              <el-switch
+                v-model="scope.row.win_sta"
+                active-value="1"
+                inactive-value="0"
+                @change="changeWinSta(scope.row.id)"
+              ></el-switch>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </el-dialog>
@@ -594,7 +710,7 @@ export default {
     return {
       title: "",
       tel: "",
-      num: '',
+      num: "",
       loading: true,
       tableData: [],
       paginationData: {
@@ -652,15 +768,25 @@ export default {
       roll_box: false,
 
       roll_list: [],
+      exchange_box: false,
+      exchange_add_box: false,
+      exchange_rules: [],
+      exchangeForm: {
+        mode: 1,
+        nft_id: "",
+        need_nft_id: "",
+        need_num: 1,
+        get_num: 1,
+      },
     };
   },
   computed: {},
   mounted() {
     this.getData();
-    this.getNft()
+    this.getNft();
   },
   methods: {
-    async changeWinSta(id){
+    async changeWinSta(id) {
       let res = await this.$http.post("/manage/setwinsta", {
         id: id,
         token: localStorage.dd_token,
@@ -669,19 +795,19 @@ export default {
         this.$message.success("设置成功");
       }
     },
-    async showRoll(id){
+    async showRoll(id) {
       let res = await this.$http.post("/manage/rolllist", {
         id: id,
         token: localStorage.dd_token,
       });
       if (res.errcode == 0) {
-        this.roll_list = res.data
-        this.roll_box = true
+        this.roll_list = res.data;
+        this.roll_box = true;
       } else {
         this.$message.error(res.errmsg);
       }
     },
-    setSoldOut(id){
+    setSoldOut(id) {
       this.$confirm("此操作将强制设置成售罄状态, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -695,9 +821,9 @@ export default {
             type: "info",
             message: "已取消操作",
           });
-        })
+        });
     },
-    async doSoldOut(id){
+    async doSoldOut(id) {
       let res = await this.$http.post("/manage/setsoldout", {
         id: id,
         token: localStorage.dd_token,
@@ -709,24 +835,28 @@ export default {
         this.$message.error(res.errmsg);
       }
     },
-    async showWinner(id){
+    async showWinner(id) {
       let res = await this.$http.post("/manage/winnerlist", {
         id: id,
         token: localStorage.dd_token,
       });
       if (res.errcode == 0) {
-        this.winner_list = res.data
-        this.winner_box = true
+        this.winner_list = res.data;
+        this.winner_box = true;
       } else {
         this.$message.error(res.errmsg);
       }
     },
-    rollDice(id){
-      this.$confirm("此操作执行抽签操作，抽取完成后用户将无法继续抽签, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+    rollDice(id) {
+      this.$confirm(
+        "此操作执行抽签操作，抽取完成后用户将无法继续抽签, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
         .then(() => {
           this.doRoll(id);
         })
@@ -735,9 +865,9 @@ export default {
             type: "info",
             message: "已取消操作",
           });
-        })
+        });
     },
-    async doRoll(id){
+    async doRoll(id) {
       let res = await this.$http.post("/manage/roll", {
         id: id,
         token: localStorage.dd_token,
@@ -754,18 +884,24 @@ export default {
         path: "/blindgoods?id=" + id,
       });
     },
-    showBoxList(id){
+    showBoxList(id) {
       this.$router.push({
         path: "/boxlist?id=" + id,
       });
     },
-    comboBox(id){
+    comboBox(id) {
       this.id = id;
       this.getComboRules();
       this.getNft();
       this.combo_box = true;
     },
-    async updateNft(id){
+    exchangeBox(id) {
+      this.id = id;
+      this.getExchangeRules();
+      this.getNft();
+      this.exchange_box = true;
+    },
+    async updateNft(id) {
       let res = await this.$http.post("/manage/updatenft", {
         id: id,
         token: localStorage.dd_token,
@@ -778,10 +914,10 @@ export default {
       }
     },
     handleExcelSuccess(e) {
-      console.log(e)
-      this.savewhitefromexcel(e.excel)
+      console.log(e);
+      this.savewhitefromexcel(e.excel);
     },
-    async savewhitefromexcel(excel){
+    async savewhitefromexcel(excel) {
       let res = await this.$http.post("/manage/savewhitefromexcel", {
         id: this.id,
         excel: excel,
@@ -795,8 +931,7 @@ export default {
       }
     },
     async getNft() {
-      let res = await this.$http.get("/manage/nftall",{
-        
+      let res = await this.$http.get("/manage/nftall", {
         token: localStorage.dd_token,
       });
       this.nft_list = res.data;
@@ -822,7 +957,27 @@ export default {
         this.$message.error(res.errmsg);
       }
     },
-    async saveComboRule(){
+    async saveExchangeRule() {
+      let res = await this.$http.post("/manage/saveexchangerule", {
+        id: this.id,
+        token: localStorage.dd_token,
+        rule: this.exchangeForm,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("保存成功");
+        this.getExchangeRules();
+        this.exchange_add_box = false;
+        this.exchangeForm = {
+          nft_id: "",
+          mode: 1,
+          need_nft_id: "",
+          get_num: 1,
+        };
+      } else {
+        this.$message.error(res.errmsg);
+      }
+    },
+    async saveComboRule() {
       let res = await this.$http.post("/manage/savecomborule", {
         id: this.id,
         token: localStorage.dd_token,
@@ -857,13 +1012,22 @@ export default {
         this.vip_rules = res.data;
       }
     },
-    async getComboRules(){
+    async getComboRules() {
       let res = await this.$http.post("/manage/comborules", {
         token: localStorage.dd_token,
         id: this.id,
       });
       if (res.errcode == 0) {
         this.combo_rules = res.data;
+      }
+    },
+    async getExchangeRules() {
+      let res = await this.$http.post("/manage/exchangerules", {
+        token: localStorage.dd_token,
+        id: this.id,
+      });
+      if (res.errcode == 0) {
+        this.exchange_rules = res.data;
       }
     },
     async deleteWhite(id) {
@@ -874,6 +1038,18 @@ export default {
       if (res.errcode == 0) {
         this.$message.success("删除成功");
         this.getWhiteList();
+      } else {
+        this.$message.error(res.data.errmsg);
+      }
+    },
+    async deleteExchangerule(id) {
+      let res = await this.$http.get("/manage/deleteexchangerule", {
+        id: id,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("删除成功");
+        this.getExchangeRules();
       } else {
         this.$message.error(res.data.errmsg);
       }
@@ -1059,7 +1235,7 @@ export default {
         pageSize: this.paginationData.pageSize,
         token: localStorage.dd_token,
         type: this.type,
-        title: this.title
+        title: this.title,
       });
       this.loading = false;
       this.tableData = res.data;
