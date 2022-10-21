@@ -31,20 +31,21 @@
         <el-table-column align="center" label="藏品封面" width="100">
           <template slot-scope="scope">
             <el-image
-              @click="preview(scope.row.order.cover)"
-              :src="scope.row.order.cover"
+              @click="preview(scope.row.cover)"
+              :src="scope.row.cover"
               style="width: 60px; height: 60px"
               fit="contain"
             ></el-image>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="order.title" label="藏品名称"></el-table-column>
-        <el-table-column align="center" prop="nft_id" label="藏品ID"></el-table-column>
+        <el-table-column align="center" prop="title" label="藏品名称"></el-table-column>
+        <el-table-column align="center" prop="nft_item_id" label="藏品ID"></el-table-column>
+        <!-- <el-table-column align="center" prop="box_id" label="盲盒ID"></el-table-column> -->
         <el-table-column align="center" prop="from_user.mobile" label="卖家手机号"></el-table-column>
         <el-table-column align="center" prop="to_user.mobile" label="买家手机号"></el-table-column>
-        <el-table-column align="center" prop="order.fee" label="卖出金额"></el-table-column>
-        <el-table-column align="center" prop="order.order_no" label="订单号"></el-table-column>
-        <el-table-column align="center" prop="create_time" label="交易时间"  :formatter="dateFormat"></el-table-column>
+        <el-table-column align="center" prop="fee" label="卖出金额"></el-table-column>
+        <el-table-column align="center" prop="order_no" label="订单号"></el-table-column>
+        <el-table-column align="center" prop="pay_time" label="交易时间"  :formatter="dateFormat"></el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination
