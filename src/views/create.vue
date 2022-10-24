@@ -273,6 +273,15 @@
         ></el-input-number>
         <p class="tips">二级市场转售成功创作者版税 单位：%</p>
       </el-form-item>
+      
+      <el-form-item label="最低寄售价格" prop="sell_min">
+        <el-input-number v-model="ruleForm.sell_min" :precision="2" :step="0.01"></el-input-number>
+        <p class="tips">二级市场最低寄售价格 单位：元</p>
+      </el-form-item>
+      <el-form-item label="最高寄售价格" prop="sell_max">
+        <el-input-number v-model="ruleForm.sell_max" :precision="2" :step="0.01"></el-input-number>
+        <p class="tips">二级市场最高寄售价格 单位：元</p>
+      </el-form-item>
       <el-form-item label="排序" prop="sort">
         <el-input
           v-model="ruleForm.sort"
