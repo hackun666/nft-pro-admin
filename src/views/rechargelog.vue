@@ -35,17 +35,9 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="user.mobile" label="手机号"></el-table-column>
-        <el-table-column align="center" prop="amount" label="充值金额"></el-table-column>
-        <el-table-column align="center" prop="addtime" label="下单时间"  :formatter="dateFormat"></el-table-column>
-        <el-table-column align="center" prop="paytime" label="付款时间"  :formatter="dateFormat"></el-table-column>
-        <el-table-column
-          label="订单详情" align="center" width="120">
-          <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <el-link v-if="scope.row.notify_data" @click="showData(scope.row.notify_data)" type="success" >点击查看</el-link>
-              </div>
-          </template>
-        </el-table-column>
+        <el-table-column align="center" prop="fee" label="充值金额"></el-table-column>
+        <el-table-column align="center" prop="add_time" label="下单时间"  :formatter="dateFormat"></el-table-column>
+        <el-table-column align="center" prop="pay_time" label="付款时间"  :formatter="dateFormat"></el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination

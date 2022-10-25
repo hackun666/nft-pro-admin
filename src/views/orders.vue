@@ -14,6 +14,22 @@
         </el-date-picker>
       </div>
       <div class="fliter_item" style="width: 200px">
+        <el-select
+          v-model="order_type"
+          placeholder="订单类型"
+          style="width: 100%"
+          clearable
+        >
+          <el-option
+            v-for="item in order_type_arr"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <div class="fliter_item" style="width: 200px">
         <el-input placeholder="请输入订单号" v-model="order_no" clearable>
         </el-input>
       </div>
@@ -25,7 +41,8 @@
         <el-select
           v-model="status"
           placeholder="选择订单状态"
-          style="width: 100%" clearable
+          style="width: 100%"
+          clearable
         >
           <el-option
             v-for="item in options"
@@ -40,7 +57,8 @@
         <el-select
           v-model="nft_id"
           placeholder="选择藏品"
-          style="width: 100%" clearable
+          style="width: 100%"
+          clearable
         >
           <el-option
             v-for="item in nfts"
@@ -55,7 +73,7 @@
         <el-button type="primary" @click="searchOrders">检索订单</el-button>
       </div>
       <div class="fliter_item">
-        <el-button type="success" @click="exportOrders">导出订单</el-button>
+        <el-button type="primary" @click="exportOrders">导出订单</el-button>
       </div>
     </div>
     <div class="eic_table">
@@ -67,7 +85,7 @@
         v-loading="loading"
       >
         <el-table-column
-        align="center"
+          align="center"
           type="index"
           label="编号ID"
           width="80"
@@ -77,51 +95,94 @@
             <div slot="reference" class="name-wrapper">
               <el-tag v-if="scope.row.order_type == 1">普通藏品</el-tag>
               <el-tag v-if="scope.row.order_type == 2">盲盒</el-tag>
-              <el-tag v-if="scope.row.order_type == 3">市场订单</el-tag>
+              <el-tag v-if="scope.row.order_type == 3">流转订单</el-tag>
+              <el-tag v-if="scope.row.order_type == 8">充值订单</el-tag>
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="order_no" width="200" label="订单号"></el-table-column>
         <el-table-column
-          label="订单状态" align="center" width="120">
+          align="center"
+          prop="order_no"
+          width="200"
+          label="订单号"
+        ></el-table-column>
+        <el-table-column label="订单状态" align="center" width="120">
           <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <el-tag v-if="scope.row.status == 1" type="success" size="medium">已支付</el-tag>
-                <el-tag v-if="scope.row.status == 0" type="danger" size="medium">未支付</el-tag>
-                <el-tag v-if="scope.row.status == 2" type="info" size="medium">已取消</el-tag>
-              </div>
+            <div slot="reference" class="name-wrapper">
+              <el-tag v-if="scope.row.status == 1" type="success" size="medium"
+                >已支付</el-tag
+              >
+              <el-tag v-if="scope.row.status == 0" type="danger" size="medium"
+                >未支付</el-tag
+              >
+              <el-tag v-if="scope.row.status == 2" type="info" size="medium"
+                >已取消</el-tag
+              >
+            </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="nickname" label="用户昵称" width="200">
+        <el-table-column
+          align="center"
+          prop="nickname"
+          label="用户昵称"
+          width="200"
+        >
           <template slot-scope="scope">
             <span>{{ scope.row.user.nickname }}</span>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="手机号" prop="user.mobile" width="150"></el-table-column>
         <el-table-column
-          label="购买数量" align="center" width="120">
+          align="center"
+          label="手机号"
+          prop="user.mobile"
+          width="150"
+        ></el-table-column>
+        <el-table-column label="购买数量" align="center" width="120">
           <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <el-tag type="success" size="medium">×{{scope.row.buy_num}}</el-tag>
-              </div>
+            <div slot="reference" class="name-wrapper">
+              <el-tag type="success" size="medium"
+                >×{{ scope.row.buy_num }}</el-tag
+              >
+            </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="fee" label="交易金额" width="120"></el-table-column>
+        <el-table-column
+          align="center"
+          prop="fee"
+          label="交易金额"
+          width="120"
+        ></el-table-column>
         <el-table-column align="center" label="藏品标题" width="200">
           <template slot-scope="scope">
-              <div slot="reference" class="name-wrapper">
-                <p>{{scope.row.title}}</p>
-              </div>
+            <div slot="reference" class="name-wrapper">
+              <p>{{ scope.row.title }}</p>
+            </div>
           </template>
         </el-table-column>
         <el-table-column align="center" label="藏品封面" width="100">
           <template slot-scope="scope">
-            <el-image :src="scope.row.cover" fit="fit" :preview-src-list="toarray(previewcover[scope.row.id])" style="width: 60px; height: 60px;"></el-image>
+            <el-image
+              :src="scope.row.cover"
+              fit="fit"
+              :preview-src-list="toarray(previewcover[scope.row.id])"
+              style="width: 60px; height: 60px"
+            ></el-image>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="add_time" label="下单时间"  width="200" :formatter="dateFormat"></el-table-column>
-        <el-table-column align="center" prop="pay_time" label="支付时间"  width="200" :formatter="dateFormat"></el-table-column>
-
+        <el-table-column
+          align="center"
+          prop="add_time"
+          label="下单时间"
+          width="200"
+          :formatter="dateFormat"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="pay_time"
+          label="支付时间"
+          width="200"
+          :formatter="dateFormat"
+        ></el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination
@@ -143,14 +204,25 @@ export default {
   components: {},
   data() {
     return {
-      date: '',
+      date: "",
       order_no: "",
       name: "",
       tel: "",
       nft_id: "",
       status: -1,
-      start_date: '',
-      end_date: '',
+      start_date: "",
+      end_date: "",
+      order_type: "",
+      order_type_arr: [
+        {
+          id: 1,
+          name: "首发订单",
+        },
+        {
+          id: 2,
+          name: "二级流转订单",
+        },
+      ],
       options: [
         {
           value: -1,
@@ -186,29 +258,35 @@ export default {
     this.getNftlist();
   },
   methods: {
+    exportOrders() {
+      window.open(
+        "/manage/exportorders?id=" +
+          this.nft_id +
+          "&token=" +
+          localStorage.dd_token +
+          "&start_date=" +
+          this.start_date +
+          "&end_date=" +
+          this.end_date
+      );
+    },
     async getNftlist() {
-      let res = await this.$http.get("/manage/nftlistall",{
-        
+      let res = await this.$http.get("/manage/nftlistall", {
         token: localStorage.dd_token,
       });
       this.nfts = res.data;
     },
-    pickDate(e){
-      console.log(e)
-      this.start_date = e[0]
-      this.end_date = e[1]
+    pickDate(e) {
+      console.log(e);
+      this.start_date = e[0];
+      this.end_date = e[1];
     },
-    seebig(c){
-      this.previewcover[0] = c; 
-      console.log(this.previewcover)
+    seebig(c) {
+      this.previewcover[0] = c;
+      console.log(this.previewcover);
     },
-    toarray(c){
+    toarray(c) {
       return [c];
-    },
-    exportOrders(){
-      if(this.nft_id > 0){
-      window.open('/manage/exportorders?id=' + this.nft_id);
-      }
     },
     async searchOrders() {
       this.paginationData.currentPage = 1;
@@ -226,10 +304,11 @@ export default {
         status: this.status,
         start_date: this.start_date,
         end_date: this.end_date,
+        order_type: this.order_type,
       });
       this.loading = false;
       this.tableData = res.data;
-      this.tableData.forEach(item => {
+      this.tableData.forEach((item) => {
         this.previewcover[item.id] = item.cover;
       });
       // console.log(this.previewcover)
@@ -259,5 +338,3 @@ export default {
   background-color: #fff;
 }
 </style>
-
-

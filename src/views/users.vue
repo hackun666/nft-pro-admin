@@ -48,6 +48,15 @@
             <el-link @click="showNft(scope.row.uid)">查看持仓</el-link>
           </template>
         </el-table-column>
+        <el-table-column align="center" label="用户余额" width="200">
+          <template slot-scope="scope">
+            <el-tag @click="editCash(scope.row.uid,scope.row.cash)">{{scope.row.cash}}</el-tag>
+            <el-divider
+              direction="vertical"
+            ></el-divider>
+            <el-link @click="showTrade(scope.row.uid)">账户明细</el-link>
+          </template>
+        </el-table-column>
 
         <el-table-column align="center" prop="address" label="区块链地址" width="330"></el-table-column>
         <el-table-column align="center" width="200"
@@ -56,7 +65,6 @@
           label="注册时间"
         ></el-table-column>
         <el-table-column align="center" prop="reg_ip" label="注册IP" width="150"></el-table-column>
-        <el-table-column align="center" prop="cash" label="用户余额" width="150"></el-table-column>
         <el-table-column align="center" prop="ref_code" label="邀请码" width="150"></el-table-column>
         <el-table-column align="center" prop="ref_num" label="拉新人数" width="150"></el-table-column>
         
@@ -262,6 +270,65 @@
     </el-dialog>
 
 
+<el-dialog title="修改用户余额" :visible.sync="cash_box" width="300px"> 
+      <div>
+
+      <el-input
+          v-model="cash"
+          placeholder="用户余额"
+        ></el-input>
+      </div>
+      <br/>
+        <div>
+        <el-input
+        type="password"
+          v-model="password"
+          placeholder="操作密码"
+        ></el-input>
+        </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cash_box = false">取 消</el-button>
+        <el-button type="primary" @click="saveCash">保存</el-button>
+      </span>
+    </el-dialog>
+
+
+
+    <el-dialog title="用户收支明细" :visible.sync="trade_box" width="1000px"> 
+      <el-table
+        ref="multipleTable"
+        :data="trade_list"
+        stripe
+        border
+      >
+        <el-table-column align="center"
+          prop="id"
+          label="系统ID"
+          width="80"
+        ></el-table-column>
+        <el-table-column align="center" label="收支类型">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.flow_type == 1" type="success">收入</el-tag>
+            <el-tag v-if="scope.row.flow_type == 2"  type="danger">支出</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="trade_amount" label="金额"></el-table-column>
+        <el-table-column align="center" prop="balance" label="余额"></el-table-column>
+        <el-table-column align="center" prop="desc" label="备注"></el-table-column>
+        <el-table-column align="center" prop="add_time" label="时间"></el-table-column>
+      </el-table>
+      <div class="pagination-wrap">
+        <el-pagination
+          background
+          :current-page="tradePaginationData.currentPage"
+          :page-size.sync="tradePaginationData.pageSize"
+          @current-change="handleTradeCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="tradePaginationData.total"
+        ></el-pagination>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -301,6 +368,16 @@ export default {
       },
       nft_box: false,
       nft_list: [],
+      cash: 0,
+      password: "",
+      cash_box: false,
+      trade_box: false,
+      trade_list: [],
+      tradePaginationData: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
     };
   },
   computed: {},
@@ -308,6 +385,56 @@ export default {
     this.getData();
   },
   methods: {
+    showTrade(uid){
+      this.now_uid = uid
+      this.trade_list = []
+      this.tradePaginationData.currentPage = 1
+      this.getTradeData();
+    },
+    handleTradeCurrentChange(num) {
+      this.tradePaginationData.currentPage = num;
+      this.getTradeData();
+    },
+    async getTradeData(){
+       let res = await this.$http.post("/manage/usertrade", {
+        token: localStorage.dd_token,
+        currentPage: this.tradePaginationData.currentPage,
+        pageSize: this.tradePaginationData.pageSize,
+        uid: this.now_uid,
+        cash: this.cash
+      });
+      if (res.errcode == 0) {
+        this.trade_list = res.data
+        this.tradePaginationData.total = res.total;
+        this.trade_box = true;
+      }
+    },
+    async saveCash(){
+      let res = await this.$http.post("/manage/savecash", {
+        token: localStorage.dd_token,
+        uid: this.now_uid,
+        cash: this.cash,
+        password: this.password
+      });
+      if (res.errcode == 0) {
+        this.$message({
+          type: "success",
+          message: '操作成功',
+        });
+        this.getData();
+        this.cash_box = false;
+      } else {
+        this.$message({
+          type: "error",
+          message: res.errmsg,
+        });
+      }
+    },
+    editCash(uid,cash){
+      this.now_uid = uid
+      this.cash = cash
+      this.cash_box = true
+    },
     showNft(uid) {
       this.uid = uid;
       this.getUserNft();
