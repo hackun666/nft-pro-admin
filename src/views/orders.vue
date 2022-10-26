@@ -219,8 +219,12 @@ export default {
           name: "首发订单",
         },
         {
-          id: 2,
+          id: 3,
           name: "二级流转订单",
+        },
+        {
+          id: 8,
+          name: "充值订单",
         },
       ],
       options: [
