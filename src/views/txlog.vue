@@ -6,14 +6,26 @@
           >批量支付</el-button
         >
       </div>
+      <div class="fliter_item">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd"
+          @change="pickDate"
+        >
+        </el-date-picker>
+      </div>
       <div class="fliter_item" style="width: 200px">
-        <el-input placeholder="请输入用户手机号查询" v-model="mobile" clearable>
+        <el-input placeholder="请输入手机号" v-model="tel" clearable>
         </el-input>
       </div>
       <div class="fliter_item" style="width: 200px">
         <el-select
           v-model="status"
-          placeholder="选择发放状态"
+          placeholder="选择提现状态"
           style="width: 100%"
           clearable
         >
@@ -27,10 +39,12 @@
         </el-select>
       </div>
       <div class="fliter_item">
-        <el-button type="primary" @click="getData">检索</el-button>
+        <el-button type="primary" @click="searchTx">检索提现</el-button>
+      </div>
+      <div class="fliter_item">
+        <el-button type="primary" @click="exportTx">导出提现</el-button>
       </div>
     </div>
-
     <div class="eic_table">
       <el-table
         ref="multipleTable"
@@ -53,29 +67,26 @@
           label="编号"
           width="80"
         ></el-table-column>
-
         <el-table-column
-          align="center"
-          prop="order_no"
-          label="提现订单号"
-          width="200"
-        ></el-table-column>
-
-        <!-- <el-table-column
           align="center"
           prop="user.nickname"
           label="来自用户"
-        ></el-table-column> -->
+        ></el-table-column>
         <el-table-column
           align="center"
           prop="user.mobile"
           label="用户手机号"
         ></el-table-column>
-        <el-table-column
-          align="center"
-          prop="pay_mod"
-          label="提现方式"
-        ></el-table-column>
+
+        <el-table-column label="提现方式" align="center" width="120">
+          <template slot-scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag v-if="scope.row.pay_type == 1">微信</el-tag>
+              <el-tag v-if="scope.row.pay_type == 2">支付宝</el-tag>
+              <el-tag v-if="scope.row.pay_type == 3">银行卡</el-tag>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="提现账户信息">
           <template slot-scope="scope">
             <el-link type="primary" @click="viewAccount(scope.row.pay_config)"
@@ -104,26 +115,16 @@
           <template slot-scope="scope">
             <el-tag v-if="scope.row.status == 0">未付款</el-tag>
             <el-tag v-if="scope.row.status == 1">已付款</el-tag>
-            <el-tag v-if="scope.row.status == 2">派发中</el-tag>
+            <!-- <el-tag v-if="scope.row.status == 2">派发中</el-tag> -->
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="200">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-link
               type="primary"
-              v-if="scope.row.status == 0 || scope.row.status == 2"
+              v-if="scope.row.status == 0"
               @click="handleApprove(scope.row.id)"
               >点击发放</el-link
-            >
-            <el-divider
-              direction="vertical"
-              v-if="scope.row.status == 0"
-            ></el-divider>
-            <el-link
-              type="danger"
-              v-if="scope.row.status == 0"
-              @click="handleCancel(scope.row.id)"
-              >撤销提现</el-link
             >
           </template>
         </el-table-column>
@@ -198,8 +199,6 @@ export default {
       tel: "",
       start_date: "",
       end_date: "",
-      mobile: "",
-      status: "",
       loading: true,
       tableData: [],
       paginationData: {
@@ -214,20 +213,27 @@ export default {
       pay_account_box: false,
       pay_info: null,
       selstr: "",
+      status: 0,
       options: [
         {
           value: 0,
-          label: "待发放",
+          label: "全部",
         },
         {
           value: 1,
-          label: "已发放",
+          label: "待付款",
         },
         {
           value: 2,
-          label: "派发中",
+          label: "已付款",
+        },
+        {
+          value: 3,
+          label: "付款中",
         },
       ],
+      start_date: "",
+      end_date: "",
     };
   },
   computed: {},
@@ -235,41 +241,26 @@ export default {
     this.getData();
   },
   methods: {
-    handleCancel(id) {
-      this.$confirm(
-        "确认撤销该笔提现吗，撤销后提现金额将转回用户余额?",
-        "提示",
-        {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        }
-      )
-        .then(() => {
-          console.log();
-          this.doCancel(id);
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消操作",
-          });
-        });
+    async searchTx() {
+      this.paginationData.currentPage = 1;
+      this.getData();
     },
-    async doCancel(id) {
-      let res = await this.$http.get("/manage/canceltixian", {
-        token: localStorage.dd_token,
-        id: id,
-      });
-      if (res.errcode == 0) {
-        this.$message.success("操作成功");
-        this.getData();
-      } else {
-        this.$message({
-          message: res.msg,
-          type: "warning",
-        });
-      }
+    pickDate(e) {
+      console.log(e);
+      this.start_date = e[0];
+      this.end_date = e[1];
+    },
+    exportTx() {
+      window.open(
+        "/manage/exporttx?status=" +
+          this.status +
+          "&start_date=" +
+          this.start_date +
+          "&end_date=" +
+          this.end_date +
+          "&token=" +
+          localStorage.dd_token
+      );
     },
     handleSelectionChange(selection) {
       console.log(selection);
@@ -282,42 +273,6 @@ export default {
       console.log(str);
       this.selstr = str;
     },
-    handleBatchApprove() {
-      let that = this;
-      this.$confirm("确认发放吗?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          console.log();
-          this.approveBatch(that.selstr);
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消操作",
-          });
-        });
-    },
-    async approveBatch(selstr) {
-      this.$message.success("请求成功");
-      let res = await this.$http.get("/manage/batchapprovetx", {
-        token: localStorage.dd_token,
-        ids: selstr,
-      });
-      return;
-      if (res.errcode == 0) {
-        this.$message.success("设置成功");
-        this.getData();
-      } else {
-        this.$message({
-          message: res.msg,
-          type: "warning",
-        });
-      }
-    },
-
     handleApprove(id) {
       this.$confirm("确认发放吗?", "提示", {
         confirmButtonText: "确定",
@@ -349,6 +304,40 @@ export default {
         });
       }
     },
+    handleBatchApprove() {
+      let that = this;
+      this.$confirm("确认发放吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          console.log();
+          this.approveBatch(that.selstr);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async approveBatch(selstr) {
+      this.$message.success("请求成功");
+      let res = await this.$http.get("/manage/batchapprovetx", {
+        token: localStorage.dd_token,
+        ids: selstr,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("设置成功");
+        this.getData();
+      } else {
+        this.$message({
+          message: res.msg,
+          type: "warning",
+        });
+      }
+    },
     viewAccount(res) {
       console.log(res);
       this.pay_info = res;
@@ -368,8 +357,10 @@ export default {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
         token: localStorage.dd_token,
-        mobile: this.mobile,
+        start_date: this.start_date,
+        end_date: this.end_date,
         status: this.status,
+        tel: this.tel,
       });
       this.loading = false;
       this.tableData = res.data;
