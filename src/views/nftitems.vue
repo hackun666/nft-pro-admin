@@ -32,7 +32,7 @@
         <el-button type="success" @click="batDestroy">批量销毁</el-button>
       </div>
 
-      <div class="fliter_item" style="margin-left: auto">
+      <div class="fliter_item">
         <el-button type="danger" @click="resetNo">一键重新编码</el-button>
       </div>
     </div>
