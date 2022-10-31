@@ -5,6 +5,21 @@
         <el-input placeholder="请输入藏品名称" v-model="name" clearable>
         </el-input>
       </div>
+      
+      <div class="fliter_item" style="width: 200px">
+        <el-input placeholder="请输入卖家手机号" v-model="tel" clearable>
+        </el-input>
+      </div>
+      
+      <div class="fliter_item" style="width: 200px">
+        <el-input placeholder="请输入最低价" v-model="min_price" clearable>
+        </el-input>
+      </div>
+      
+      <div class="fliter_item" style="width: 200px">
+        <el-input placeholder="请输入最高价" v-model="max_price" clearable>
+        </el-input>
+      </div>
       <div class="fliter_item">
         <el-button type="primary" @click="searchData">检索</el-button>
       </div>
@@ -105,10 +120,10 @@ export default {
   components: {},
   data() {
     return {
-      date: "",
+      min_price: "",
       name: "",
       tel: "",
-      start_date: "",
+      max_price: "",
       end_date: "",
       loading: true,
       tableData: [],
@@ -182,6 +197,9 @@ export default {
         pageSize: this.paginationData.pageSize,
         token: localStorage.dd_token,
         name: this.name,
+        tel: this.tel,
+        min_price: this.min_price,
+        max_price: this.max_price,
       });
       this.loading = false;
       this.tableData = res.data;
