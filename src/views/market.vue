@@ -23,7 +23,7 @@
           label="编号"
           width="60"
         ></el-table-column>
-        <el-table-column label="类型" align="center">
+        <el-table-column label="类型" align="center" width="120">
           <template slot-scope="scope">
             <div slot="reference" class="name-wrapper">
               <el-tag v-if="scope.row.nft_type == 1">普通藏品</el-tag>
@@ -31,7 +31,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="藏品封面">
+        <el-table-column align="center" label="藏品封面" width="100">
           <template slot-scope="scope">
             <el-image
               @click="preview(scope.row.info.cover)"
@@ -45,22 +45,31 @@
           align="center"
           prop="info.title"
           label="藏品名称"
-         
+          width="200"
         ></el-table-column>
         <el-table-column
           align="center"
           prop="nft_item_id"
-          label="藏品ID"
+          label="藏品唯一编号"
+          width="250"
         ></el-table-column>
         <el-table-column
           align="center"
           prop="price"
           label="转售价格"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="user.nickname"
+          label="持有者昵称"
+          width="150"
         ></el-table-column>
         <el-table-column
           align="center"
           prop="user.mobile"
-          label="持有者手机号"
+          label="卖家手机号"
+          width="300"
         ></el-table-column>
         <el-table-column
           align="center"
@@ -69,7 +78,7 @@
           label="转售时间"
           width="200"
         ></el-table-column>
-        <el-table-column align="center" label="上架状态" >
+        <el-table-column align="center" label="上架状态" width="150">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.onsale"

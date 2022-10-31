@@ -293,13 +293,20 @@
             >模版下载</el-button
           >
         </div>
+        <div class="fliter_item">
+          <el-input v-model="tel" placeholder="请填写白名单手机号"></el-input>
+        </div>
+        <div class="fliter_item">
+          <el-button icon="el-icon-search" @click="searchWhite"
+            >搜索</el-button
+          >
+        </div>
       </div>
 
       <div class="eic_table">
         <el-table
           ref="multipleTable"
           :data="whiteList"
-          height="400"
           stripe
           size="mini"
           border
@@ -334,6 +341,17 @@
             </template>
           </el-table-column>
         </el-table>
+
+        <div class="pagination-wrap">
+          <el-pagination
+            background
+            :current-page="whitePaginationData.currentPage"
+            :page-size.sync="whitePaginationData.pageSize"
+            @current-change="handleWhiteChange"
+            layout="total, prev, pager, next, jumper"
+            :total="whitePaginationData.total"
+          ></el-pagination>
+        </div>
       </div>
     </el-dialog>
 
@@ -660,11 +678,20 @@
       </div>
     </el-dialog>
     <el-dialog title="参与抽签名单" :visible.sync="roll_box" width="800px">
+      <div class="fliter">
+        <div class="fliter_item">
+          <el-input v-model="tel" placeholder="请填写抽签手机号"></el-input>
+        </div>
+        <div class="fliter_item">
+          <el-button icon="el-icon-search" @click="searchRoll"
+            >搜索</el-button
+          >
+        </div>
+      </div>
       <div class="eic_table">
         <el-table
           ref="multipleTable"
           :data="roll_list"
-          height="400"
           stripe
           size="mini"
           border
@@ -697,6 +724,16 @@
             </template>
           </el-table-column>
         </el-table>
+        <div class="pagination-wrap">
+          <el-pagination
+            background
+            :current-page="rollPaginationData.currentPage"
+            :page-size.sync="rollPaginationData.pageSize"
+            @current-change="handleRollChange"
+            layout="total, prev, pager, next, jumper"
+            :total="rollPaginationData.total"
+          ></el-pagination>
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -741,6 +778,16 @@ export default {
       type: 0,
       whiteList: [],
       white_box: false,
+      whitePaginationData: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
+      rollPaginationData: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
       white_input_box: false,
       id: 0,
       vip_box: false,
@@ -766,7 +813,6 @@ export default {
       winner_list: [],
       winner_box: false,
       roll_box: false,
-
       roll_list: [],
       exchange_box: false,
       exchange_add_box: false,
@@ -786,6 +832,20 @@ export default {
     this.getNft();
   },
   methods: {
+    searchWhite(){
+      if (this.tel.length == 0) {
+        this.$message.error("请填写手机号");
+      }
+      this.whitePaginationData.currentPage = 1
+      this.getWhiteList()
+    },
+    searchRoll(){
+      if (this.tel.length == 0) {
+        this.$message.error("请填写手机号");
+      }
+      this.rollPaginationData.currentPage = 1
+      this.getRollData()
+    },
     async changeWinSta(id) {
       let res = await this.$http.post("/manage/setwinsta", {
         id: id,
@@ -796,13 +856,21 @@ export default {
       }
     },
     async showRoll(id) {
+      this.id = id;
+      this.getRollData()
+      this.roll_box = true;
+    },
+    async getRollData(){
       let res = await this.$http.post("/manage/rolllist", {
-        id: id,
+        id: this.id,
+        currentPage: this.rollPaginationData.currentPage,
+        pageSize: this.rollPaginationData.pageSize,
         token: localStorage.dd_token,
+        tel: this.tel
       });
       if (res.errcode == 0) {
         this.roll_list = res.data;
-        this.roll_box = true;
+        this.rollPaginationData.total = res.total;
       } else {
         this.$message.error(res.errmsg);
       }
@@ -1132,10 +1200,14 @@ export default {
     async getWhiteList() {
       let res = await this.$http.post("/manage/whitelist", {
         token: localStorage.dd_token,
+        currentPage: this.whitePaginationData.currentPage,
+        pageSize: this.whitePaginationData.pageSize,
         id: this.id,
+        tel: this.tel,
       });
       if (res.errcode == 0) {
         this.whiteList = res.data;
+        this.whitePaginationData.total = res.total;
       }
     },
     exportWhiteList() {},
@@ -1270,6 +1342,14 @@ export default {
     handleCurrentChange(num) {
       this.paginationData.currentPage = num;
       this.getData();
+    },
+    handleWhiteChange(num) {
+      this.whitePaginationData.currentPage = num;
+      this.getWhiteList();
+    },
+    handleRollChange(num) {
+      this.rollPaginationData.currentPage = num;
+      this.getRollData();
     },
     dateFormat: function (row, column) {
       var date = row[column.property];

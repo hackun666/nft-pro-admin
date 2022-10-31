@@ -183,6 +183,15 @@
           width="200"
           :formatter="dateFormat"
         ></el-table-column>
+        <el-table-column label="付款方式" align="center" width="120">
+          <template slot-scope="scope">
+            <div slot="reference" class="name-wrapper">
+              <el-tag type="success" size="medium" v-if="scope.row.status == 1"
+                >{{ scope.row.pay_name }}</el-tag
+              >
+            </div>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination
