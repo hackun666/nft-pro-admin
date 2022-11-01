@@ -2,6 +2,18 @@
   <div class="orders">
 
     <div class="fliter">
+      <div class="fliter_item">
+        <el-date-picker
+          v-model="date"
+          type="daterange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+          value-format="yyyy-MM-dd"
+          @change="pickDate"
+        >
+        </el-date-picker>
+      </div>
       <div class="fliter_item" style="width: 200px">
         <el-input placeholder="卖家手机号" v-model="tel" clearable>
         </el-input>
@@ -13,6 +25,23 @@
       <div class="fliter_item" style="width: 200px">
         <el-input placeholder="订单号" v-model="order_no" clearable>
         </el-input>
+      </div>
+      
+      <div class="fliter_item" style="width: 200px">
+        <el-select
+          v-model="nft_id"
+          placeholder="选择藏品"
+          style="width: 100%"
+          clearable
+        >
+          <el-option
+            v-for="item in nfts"
+            :key="item.id"
+            :label="item.title"
+            :value="item.id"
+          >
+          </el-option>
+        </el-select>
       </div>
       <div class="fliter_item">
         <el-button type="primary" @click="searchData">检索</el-button>
@@ -84,6 +113,7 @@ export default {
   components: {},
   data() {
     return {
+      date: "",
       tel: "",
       buyer: "",
       order_no: "",
@@ -97,14 +127,25 @@ export default {
       workBox: false,
       workImgs: [],
       previewBox: false,
-      img_src: ''
+      img_src: '',
+      nfts: [],
+      nft_id: "",
+      start_date: "",
+      end_date: "",
     };
   },
   computed: {},
   mounted() {
     this.getData();
+    this.getNftlist();
   },
   methods: {
+    async getNftlist() {
+      let res = await this.$http.get("/manage/nftlistall", {
+        token: localStorage.dd_token,
+      });
+      this.nfts = res.data;
+    },
     pickDate(e) {
       console.log(e);
       this.start_date = e[0];
@@ -122,6 +163,9 @@ export default {
         tel: this.tel,
         buyer: this.buyer,
         order_no: this.order_no,
+        nft_id: this.nft_id,
+        start_date: this.start_date,
+        end_date: this.end_date,
       });
       this.loading = false;
       this.tableData = res.data;
