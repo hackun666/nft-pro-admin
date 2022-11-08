@@ -56,6 +56,10 @@
         <i class="el-icon-s-data"></i>
         <span slot="title">拉新排行</span>
       </el-menu-item>
+      <el-menu-item index="/cashrank">
+        <i class="el-icon-s-data"></i>
+        <span slot="title">消费排行</span>
+      </el-menu-item>
       
       <el-submenu index="market">
         <template slot="title">

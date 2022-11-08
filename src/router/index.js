@@ -45,6 +45,7 @@ const tradelog = () => import("@/views/tradelog");
 const rechargelog = () => import("@/views/rechargelog");
 
 const xilie = () => import("@/views/xilie");
+const cashrank = () => import("@/views/cashrank");
 
 const router = new Router({
   routes: [
@@ -176,6 +177,15 @@ const router = new Router({
             needLogin: true,
           },
           component: rank,
+        },
+        {
+          path: "cashrank",
+          name: "cashrank",
+          meta: {
+            title: "消费排行",
+            needLogin: true,
+          },
+          component: cashrank,
         },
         {
           path: "message",

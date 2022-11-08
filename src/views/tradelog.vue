@@ -75,6 +75,21 @@
         <el-table-column align="center" prop="fee" label="卖出金额"></el-table-column>
         <el-table-column align="center" prop="order_no" label="订单号"></el-table-column>
         <el-table-column align="center" prop="pay_time" label="交易时间"  :formatter="dateFormat"></el-table-column>
+        <el-table-column align="center" label="操作" width="220">
+          <template slot-scope="scope">
+            <el-link type="primary" @click="billInfo(scope.row.id)"
+              >订单详情</el-link
+            >
+            <el-divider direction="vertical"></el-divider>
+            <el-link type="primary" @click="fenrundata(scope.row.id)"
+              >分润详情</el-link
+            >
+            <el-divider direction="vertical"></el-divider>
+            <el-link type="primary" @click="fenrun(scope.row.id)"
+              >重新发起分润</el-link
+            >
+          </template>
+        </el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination
@@ -140,6 +155,15 @@ export default {
     this.getNftlist();
   },
   methods: {
+    billInfo(id){
+      window.open('/heepay/bill?oid='+id);
+    },
+    fenrundata(id){
+      window.open('/heepay/bill?oid='+id+'&trade_type=8');
+    },
+    fenrun(id){
+      window.open('/heepay/fenrun?oid='+id);
+    },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall", {
         token: localStorage.dd_token,
