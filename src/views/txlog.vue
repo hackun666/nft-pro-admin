@@ -3,7 +3,7 @@
     <div class="fliter">
       <div class="fliter_item">
         <el-button @click="handleBatchApprove" type="primary"
-          >批量支付</el-button
+          >批量设为已付款</el-button
         >
       </div>
       <div class="fliter_item">
@@ -69,11 +69,6 @@
         ></el-table-column>
         <el-table-column
           align="center"
-          prop="user.nickname"
-          label="来自用户"
-        ></el-table-column>
-        <el-table-column
-          align="center"
           prop="user.mobile"
           label="用户手机号"
         ></el-table-column>
@@ -118,13 +113,25 @@
             <!-- <el-tag v-if="scope.row.status == 2">派发中</el-tag> -->
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column
+          align="center"
+          prop="hy_bill_no"
+          label="汇元订单"
+        ></el-table-column>
+        <el-table-column label="操作" align="center" width="220">
           <template slot-scope="scope">
             <el-link
               type="primary"
               v-if="scope.row.status == 0"
               @click="handleApprove(scope.row.id)"
-              >点击发放</el-link
+              >设为已发放</el-link
+            >
+            <el-divider direction="vertical" v-if="scope.row.status == 0"></el-divider>
+            <el-link
+              type="primary"
+              v-if="scope.row.status == 0"
+              @click="heepay(scope.row.id)"
+              >汇元付款</el-link
             >
           </template>
         </el-table-column>
@@ -140,22 +147,6 @@
         ></el-pagination>
       </div>
     </div>
-
-    <el-dialog title="查看作品" :visible.sync="workBox" width="1000px">
-      <el-carousel trigger="click" height="600px">
-        <el-carousel-item v-for="item in workImgs" :key="item.id">
-          <el-image
-            :src="item.url"
-            style="width: 1000px; height: 600px"
-            fit="contain"
-          ></el-image>
-        </el-carousel-item>
-      </el-carousel>
-    </el-dialog>
-
-    <el-dialog title="预览图片" :visible.sync="previewBox" width="1000px">
-      <img :src="img_src" width="100%" />
-    </el-dialog>
 
     <el-dialog
       title="查看收款账户"
@@ -272,6 +263,38 @@ export default {
       str = str.substring(0, str.length - 1);
       console.log(str);
       this.selstr = str;
+    },
+    heepay(id) {
+      this.$confirm("确认使用汇元进行提现吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.heepayConfirm(id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async heepayConfirm(id) {
+      let res = await this.$http.get("/heepay/transfer", {
+        token: localStorage.dd_token,
+        id: id,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("发放成功");
+        this.getData();
+      } else {
+        this.$message({
+          message: res.errmsg,
+          type: "warning",
+        });
+      }
+      
     },
     handleApprove(id) {
       this.$confirm("确认发放吗?", "提示", {
