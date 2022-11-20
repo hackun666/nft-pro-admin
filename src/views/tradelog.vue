@@ -88,6 +88,10 @@
             <el-link type="primary" @click="fenrun(scope.row.id)"
               >重新发起分润</el-link
             >
+            <el-divider direction="vertical"></el-divider>
+            <el-link type="primary" @click="fenrunback(scope.row.id)"
+              >分润撤回</el-link
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -163,6 +167,9 @@ export default {
     },
     fenrun(id){
       window.open('/heepay/fenrun?oid='+id);
+    },
+    fenrunback(id) {
+      window.open('/heepay/fenrunback?oid='+id);
     },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall", {
