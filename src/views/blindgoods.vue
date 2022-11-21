@@ -138,6 +138,26 @@
           ></el-input-number>
           <p class="tips">该藏品的抽中几率 单位：%</p>
         </el-form-item>
+
+        <el-form-item label="参与合成" prop="combo_sta">
+          <el-switch
+            v-model="ruleForm.combo_sta"
+            active-value="1"
+            inactive-value="0"
+          >
+          </el-switch>
+          <p class="tips">关闭后当前藏品无法用作合成材料</p>
+        </el-form-item>
+
+        <el-form-item label="二级市场寄售" prop="sale_sta">
+          <el-switch
+            v-model="ruleForm.sale_sta"
+            active-value="1"
+            inactive-value="0"
+          >
+          </el-switch>
+          <p class="tips">关闭后当前藏品无法在二级市场寄售</p>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >保存信息</el-button
@@ -198,6 +218,8 @@ export default {
         cover: "",
         rate: "",
         total_num: "",
+        combo_sta: 1,
+        sale_sta: 1,
       },
       options: [],
       rules: {
@@ -311,6 +333,8 @@ export default {
         cover: row.cover,
         rate: row.rate,
         total_num: row.total_num,
+        combo_sta: row.combo_sta,
+        sale_sta: row.sale_sta,
       };
       this.good_box = true;
     },
@@ -321,6 +345,8 @@ export default {
         cover: "",
         rate: "",
         total_num: "",
+        combo_sta: 1,
+        sale_sta: 1,
       }),
         (this.good_box = true);
     },
@@ -351,6 +377,8 @@ export default {
           cover: "",
           rate: "",
           total_num: "",
+          combo_sta: 1,
+        sale_sta: 1,
         }),
           this.getData();
       } else {

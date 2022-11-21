@@ -497,12 +497,13 @@
         </el-table>
       </div>
     </el-dialog>
-    <el-dialog title="合成条件设置" :visible.sync="combo_add_box" width="500px">
+    <el-dialog title="合成条件设置" :visible.sync="combo_add_box" width="600px">
       <el-form ref="ruleForm" label-width="120px" class="demo-ruleForm">
         <el-form-item label="合成模式">
           <el-radio-group v-model="comboForm.mode">
             <el-radio :label="1">普通藏品合成</el-radio>
             <el-radio :label="2">盲盒合成</el-radio>
+            <el-radio :label="3">指定盲盒合成</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="需要藏品" v-if="comboForm.mode == 1">
@@ -516,7 +517,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="需要藏品" v-else>
+        <el-form-item label="需要藏品" v-if="comboForm.mode == 2">
           <el-select v-model="comboForm.need_nft_id" placeholder="请选择">
             <el-option
               v-for="item in nft_box"
@@ -527,10 +528,21 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="需要藏品" v-if="comboForm.mode == 3">
+          <el-select v-model="comboForm.need_nft_id" placeholder="请选择">
+            <el-option
+              v-for="item in box_list"
+              :key="item.id"
+              :label="item.title"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="需要份数">
           <el-input-number
             v-model="comboForm.need_num"
-            :min="0"
+            :min="1"
           ></el-input-number>
         </el-form-item>
         <el-form-item>
@@ -1004,6 +1016,7 @@ export default {
       });
       this.nft_list = res.data;
       this.nft_box = res.nft_box;
+      this.box_list = res.box_list;
     },
     async saveVipRule() {
       let res = await this.$http.post("/manage/saveviprule", {
