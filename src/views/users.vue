@@ -17,6 +17,9 @@
           >发起空投</el-button
         >
       </div>
+      <div class="fliter_item">
+        <el-button type="success" @click="exportRank">按持仓排名导出</el-button>
+      </div>
     </div>
     <div class="eic_table">
       <el-table
@@ -385,6 +388,12 @@ export default {
     this.getData();
   },
   methods: {
+    exportRank() {
+      window.open(
+        "/manage/exportusernftrank?token=" +
+          localStorage.dd_token
+      );
+    },
     showTrade(uid){
       this.now_uid = uid
       this.trade_list = []

@@ -72,8 +72,13 @@
             <el-link @click="editbox(scope.row)">编辑</el-link>
             <el-divider direction="vertical"></el-divider>
             <el-link type="danger" @click="delebox(scope.row.id)">删除</el-link>
+            <el-divider direction="vertical"></el-divider>
             <el-link type="danger" @click="resetNo(scope.row.id)"
               >一键重新编码</el-link
+            >
+            <el-divider direction="vertical"></el-divider>
+            <el-link type="danger" @click="DestroyAll(scope.row.id)"
+              >销毁全部藏品</el-link
             >
           </template>
         </el-table-column>
@@ -248,6 +253,34 @@ export default {
     }
   },
   methods: {
+    DestroyAll(box_id) {
+      this.$confirm("此操作将永久销毁该类别下所有藏品数据且无法恢复, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.handleDestroyAll(box_id);
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async handleDestroyAll(box_id) {
+      let res = await this.$http.post("/manage/destroyallbox", {
+        id: box_id,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("藏品销毁成功");
+        this.getData();
+      } else {
+        this.$message.error(res.errmsg);
+      }
+    },
     resetNo(box_id) {
       this.$confirm("确认后藏品将重新编号且无法恢复, 是否继续?", "提示", {
         confirmButtonText: "确定",

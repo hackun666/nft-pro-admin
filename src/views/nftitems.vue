@@ -35,6 +35,9 @@
       <div class="fliter_item">
         <el-button type="danger" @click="resetNo">一键重新编码</el-button>
       </div>
+      <div class="fliter_item">
+        <el-button type="danger" @click="DestroyAll">销毁全部藏品</el-button>
+      </div>
     </div>
     <div class="eic_table">
       <el-table
@@ -482,7 +485,7 @@ export default {
       this.paginationData.total = res.total;
     },
     destroyNft(id) {
-      this.$confirm("此操作将永久销毁该NFT数据且无法恢复, 是否继续?", "提示", {
+      this.$confirm("此操作将永久销毁该藏品数据且无法恢复, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -500,6 +503,34 @@ export default {
     async handleDestroyNft(id) {
       let res = await this.$http.post("/manage/destroynftitem", {
         id: id,
+        token: localStorage.dd_token,
+      });
+      if (res.errcode == 0) {
+        this.$message.success("藏品销毁成功");
+        this.getData();
+      } else {
+        this.$message.error(res.errmsg);
+      }
+    },
+    DestroyAll() {
+      this.$confirm("此操作将永久销毁该类别下所有藏品数据且无法恢复, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(() => {
+          this.handleDestroyAll();
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消操作",
+          });
+        });
+    },
+    async handleDestroyAll() {
+      let res = await this.$http.post("/manage/destroyall", {
+        id: this.nft_id,
         token: localStorage.dd_token,
       });
       if (res.errcode == 0) {

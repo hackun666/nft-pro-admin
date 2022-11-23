@@ -49,8 +49,8 @@
         <el-table-column align="center" label="藏品封面" width="100">
           <template slot-scope="scope">
             <el-image
-              @click="preview(scope.row.info.cover)"
-              :src="scope.row.info.cover"
+              @click="preview(scope.row.cover)"
+              :src="scope.row.cover"
               style="width: 60px; height: 60px"
               fit="contain"
             ></el-image>
@@ -58,7 +58,7 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="info.title"
+          prop="title"
           label="藏品名称"
           width="200"
         ></el-table-column>
