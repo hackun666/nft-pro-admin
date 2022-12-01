@@ -61,6 +61,13 @@
         <span slot="title">消费排行</span>
       </el-menu-item>
       
+      <el-submenu index="Mall">
+        <template slot="title">
+          <i class="el-icon-menu"></i>
+          <span>积分商城模块</span>
+        </template>
+        <el-menu-item index="/shopgoods">积分商品管理</el-menu-item>
+      </el-submenu>
       <el-submenu index="market">
         <template slot="title">
           <i class="el-icon-s-goods"></i>

@@ -9,6 +9,9 @@
           >添加新盲盒</el-button
         >
       </div>
+      <div class="fliter_item">
+        <el-button type="success" @click="exportData">导出持仓</el-button>
+      </div>
     </div>
     <div class="eic_table">
       <el-table
@@ -253,6 +256,15 @@ export default {
     }
   },
   methods: {
+    
+    exportData() {
+      window.open(
+        "/manage/exportboxitems?id=" +
+          this.nft_id +
+          "&token=" +
+          localStorage.dd_token
+      );
+    },
     DestroyAll(box_id) {
       this.$confirm("此操作将永久销毁该类别下所有藏品数据且无法恢复, 是否继续?", "提示", {
         confirmButtonText: "确定",

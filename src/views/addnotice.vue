@@ -78,11 +78,11 @@ export default {
   mounted() {
     this.editor = new E(`#editor`);
     let client = new OSS({
-      region: "oss-cn-hangzhou",
-      secure: true,
-    accessKeyId: "LTAI5tBSC1qv4asrNcBvx1VD",
-    accessKeySecret: "IA8DXHlWy4Oo2OOh67J0JNH3jiRFLn",
-      bucket: "echeerart",
+  region: "oss-cn-beijing",
+  secure: true,
+  accessKeyId: "LTAI5tEXB1ZNDhm9fsqqDseN",
+  accessKeySecret: "qdswXYYmGDiMEtIlocWNkmu0akwFj1",
+  bucket: "334art",
     });
     var date = new Date();
     var year = date.getFullYear();

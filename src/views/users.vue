@@ -69,8 +69,15 @@
         ></el-table-column>
         <el-table-column align="center" prop="reg_ip" label="注册IP" width="150"></el-table-column>
         <el-table-column align="center" prop="ref_code" label="邀请码" width="150"></el-table-column>
-        <el-table-column align="center" prop="ref_num" label="拉新人数" width="150"></el-table-column>
-        
+        <el-table-column align="center" label="拉新人数" width="160">
+          <template slot-scope="scope">
+            <el-tag>{{scope.row.ref_num}}</el-tag>
+            <el-divider
+              direction="vertical"
+            ></el-divider>
+            <el-link @click="showRefer(scope.row.uid)">拉新明细</el-link>
+          </template>
+        </el-table-column>
         <el-table-column align="center" label="转赠功能" width="150">
           <template slot-scope="scope">
             <el-switch
@@ -196,6 +203,10 @@
         </el-form-item>
         <el-form-item label="空投份数" v-if="ruleForm.tp != 4 && ruleForm.num_tp == 1">
           <el-input v-model="ruleForm.num" placeholder="输入空投份数">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="操作密码">
+          <el-input v-model="ruleForm.password" placeholder="输入操作密码">
           </el-input>
         </el-form-item>
       </el-form>
@@ -332,6 +343,45 @@
       </div>
     </el-dialog>
 
+     <el-dialog title="拉新邀请明细" :visible.sync="refer_box" width="1000px"> 
+      <el-table
+        ref="multipleTable"
+        :data="refer_list"
+        stripe
+        border
+      >
+        <el-table-column align="center"
+          prop="uid"
+          label="用户UID"
+          width="80"
+        ></el-table-column>
+        <el-table-column align="center" label="认证状态">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.rz_sta == 1" type="success">已认证</el-tag>
+            <el-tag v-if="scope.row.rz_sta == 0"  type="danger">未认证</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="mobile" label="注册手机号"></el-table-column>
+        <el-table-column align="center" prop="nickname" label="昵称"></el-table-column>
+        <el-table-column
+          align="center"
+          property="reg_time"
+          :formatter="dateFormat"
+          label="注册时间"
+        ></el-table-column>
+      </el-table>
+      <div class="pagination-wrap">
+        <el-pagination
+          background
+          :current-page="referPaginationData.currentPage"
+          :page-size.sync="referPaginationData.pageSize"
+          @current-change="handleReferCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="referPaginationData.total"
+        ></el-pagination>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -362,7 +412,8 @@ export default {
         address: "",
         tp: 1,
         excel: "",
-        num_tp: 1
+        num_tp: 1,
+        password: ""
       },
       nftPaginationData: {
         total: 0,
@@ -377,6 +428,13 @@ export default {
       trade_box: false,
       trade_list: [],
       tradePaginationData: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
+      refer_box: false,
+      refer_list: [],
+      referPaginationData: {
         total: 0,
         currentPage: 1,
         pageSize: 10,
@@ -399,6 +457,30 @@ export default {
       this.trade_list = []
       this.tradePaginationData.currentPage = 1
       this.getTradeData();
+    },
+
+    showRefer(uid){
+      this.now_uid = uid
+      this.refer_list = []
+      this.referPaginationData.currentPage = 1
+      this.getReferData();
+    },
+    handleReferCurrentChange(num) {
+      this.referPaginationData.currentPage = num;
+      this.getReferData();
+    },
+    async getReferData(){
+       let res = await this.$http.post("/manage/referlog", {
+        token: localStorage.dd_token,
+        currentPage: this.referPaginationData.currentPage,
+        pageSize: this.referPaginationData.pageSize,
+        uid: this.now_uid
+      });
+      if (res.errcode == 0) {
+        this.refer_list = res.data
+        this.referPaginationData.total = res.total;
+        this.refer_box = true;
+      }
     },
     handleTradeCurrentChange(num) {
       this.tradePaginationData.currentPage = num;

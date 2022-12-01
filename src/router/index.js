@@ -44,8 +44,11 @@ const rank = () => import("@/views/rank");
 const tradelog = () => import("@/views/tradelog");
 const rechargelog = () => import("@/views/rechargelog");
 
+
 const xilie = () => import("@/views/xilie");
 const cashrank = () => import("@/views/cashrank");
+const shopgoods = () => import("@/views/shopgoods");
+const addgood = () => import("@/views/addgood");
 
 const router = new Router({
   routes: [
@@ -76,6 +79,24 @@ const router = new Router({
             needLogin: true,
           },
           component: dashboard,
+        },
+        {
+          path: "shopgoods",
+          name: "shopgoods",
+          meta: {
+            title: "商品列表",
+            needLogin: true,
+          },
+          component: shopgoods,
+        },
+        {
+          path: "addgood",
+          name: "addgood",
+          meta: {
+            title: "添加商品",
+            needLogin: true,
+          },
+          component: addgood,
         },
         {
           path: "siteconfig",
