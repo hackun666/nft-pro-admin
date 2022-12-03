@@ -166,6 +166,10 @@
           </el-switch>
           <p class="tips">关闭后当前藏品无法在二级市场寄售</p>
         </el-form-item>
+
+        <el-form-item label="可兑换积分数" prop="score">
+          <el-input-number v-model="ruleForm.score"></el-input-number>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >保存信息</el-button
@@ -228,6 +232,7 @@ export default {
         total_num: "",
         combo_sta: 1,
         sale_sta: 1,
+        score: "",
       },
       options: [],
       rules: {
@@ -256,7 +261,6 @@ export default {
     }
   },
   methods: {
-    
     exportData() {
       window.open(
         "/manage/exportboxitems?id=" +
@@ -266,11 +270,15 @@ export default {
       );
     },
     DestroyAll(box_id) {
-      this.$confirm("此操作将永久销毁该类别下所有藏品数据且无法恢复, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
+      this.$confirm(
+        "此操作将永久销毁该类别下所有藏品数据且无法恢复, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      )
         .then(() => {
           this.handleDestroyAll(box_id);
         })
@@ -380,6 +388,7 @@ export default {
         total_num: row.total_num,
         combo_sta: row.combo_sta,
         sale_sta: row.sale_sta,
+        score: row.score,
       };
       this.good_box = true;
     },
@@ -392,6 +401,7 @@ export default {
         total_num: "",
         combo_sta: 1,
         sale_sta: 1,
+        score: "",
       }),
         (this.good_box = true);
     },
@@ -423,7 +433,8 @@ export default {
           rate: "",
           total_num: "",
           combo_sta: 1,
-        sale_sta: 1,
+          sale_sta: 1,
+          score: "",
         }),
           this.getData();
       } else {
