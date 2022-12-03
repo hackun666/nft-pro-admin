@@ -144,6 +144,21 @@
         ></el-input-number>
         <p class="tips">兑换一份藏品需要的再接再励数量</p>
       </el-form-item> -->
+      
+      <el-form-item label="开启积分兑换" prop="score_sta">
+        <el-switch
+          v-model="ruleForm.score_sta"
+          active-value="1"
+          inactive-value="0"
+        >
+        </el-switch>
+        <p class="tips">
+          开启后藏品可兑换积分
+        </p>
+      </el-form-item>
+      <el-form-item label="可兑换积分数" prop="score" v-if="ruleForm.score_sta == 1">
+        <el-input-number v-model="ruleForm.score"></el-input-number>
+      </el-form-item>
       <el-form-item
         label="开启抽签"
         prop="prize_sta"
@@ -179,7 +194,6 @@
       <el-form-item
         label="白名单功能"
         prop="white_list_sta"
-        v-if="ruleForm.nft_type != 3"
       >
         <el-switch
           v-model="ruleForm.white_list_sta"
@@ -282,6 +296,7 @@
         <el-input-number v-model="ruleForm.sell_max" :precision="2" :step="0.01"></el-input-number>
         <p class="tips">二级市场最高寄售价格 单位：元</p>
       </el-form-item>
+      
       <el-form-item label="排序" prop="sort">
         <el-input
           v-model="ruleForm.sort"
@@ -360,6 +375,7 @@ export default {
         prize_num: 100,
         winner_buy_time: 30,
         white_buy_time: 60,
+        score: "",
       },
       rules: {
         cover: [{ required: true, message: "请上传藏品封面", trigger: "blur" }],

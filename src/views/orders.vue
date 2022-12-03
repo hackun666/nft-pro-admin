@@ -97,6 +97,7 @@
               <el-tag v-if="scope.row.order_type == 2">盲盒</el-tag>
               <el-tag v-if="scope.row.order_type == 3">流转订单</el-tag>
               <el-tag v-if="scope.row.order_type == 8">充值订单</el-tag>
+              <el-tag v-if="scope.row.order_type == 5">商城订单</el-tag>
             </div>
           </template>
         </el-table-column>
