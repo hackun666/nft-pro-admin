@@ -153,6 +153,12 @@
           label="交易金额"
           width="120"
         ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="score"
+          label="消费积分"
+          width="120"
+        ></el-table-column>
         <el-table-column align="center" label="藏品标题" width="200">
           <template slot-scope="scope">
             <div slot="reference" class="name-wrapper">
@@ -187,12 +193,33 @@
         <el-table-column label="付款方式" align="center" width="120">
           <template slot-scope="scope">
             <div slot="reference" class="name-wrapper">
-              <el-tag type="success" size="medium" v-if="scope.row.status == 1"
+              <el-tag
+                type="success"
+                size="medium"
+                v-if="scope.row.status == 1"
                 >{{ scope.row.pay_name }}</el-tag
               >
             </div>
           </template>
         </el-table-column>
+        <el-table-column
+          align="center"
+          prop="name"
+          label="收货人姓名"
+          width="200"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="tel"
+          label="收货人电话"
+          width="200"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="address"
+          label="收货人地址"
+          width="200"
+        ></el-table-column>
       </el-table>
       <div class="pagination-wrap">
         <el-pagination
@@ -235,6 +262,10 @@ export default {
         {
           id: 8,
           name: "充值订单",
+        },
+        {
+          id: 5,
+          name: "积分商城订单",
         },
       ],
       options: [
