@@ -474,6 +474,7 @@
               <div slot="reference" class="name-wrapper">
                 <el-tag v-if="scope.row.mode == 1">普通藏品</el-tag>
                 <el-tag v-if="scope.row.mode == 2">盲盒藏品</el-tag>
+                <el-tag v-if="scope.row.mode == 3">指定盲盒</el-tag>
               </div>
             </template>
           </el-table-column>

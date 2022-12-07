@@ -20,6 +20,9 @@
       <div class="fliter_item">
         <el-button type="success" @click="exportRank">按持仓排名导出</el-button>
       </div>
+      <div class="fliter_item">
+        <el-button type="success" @click="exportScore">按积分排名导出</el-button>
+      </div>
     </div>
     <div class="eic_table">
       <el-table
@@ -36,7 +39,7 @@
         ></el-table-column>
         <el-table-column align="center" prop="nickname" label="昵称" width="150"></el-table-column>
         <el-table-column align="center" prop="mobile" label="联系方式" width="150"></el-table-column>
-        <el-table-column align="center" label="实名认证状态" width="150">
+        <el-table-column align="center" label="实名认证状态" width="120">
           <template slot-scope="scope">
             <el-tag v-if="scope.row.rz_sta == 0" type="info">未认证</el-tag>
             <el-tag v-if="scope.row.rz_sta == 1" >已认证</el-tag>
@@ -51,13 +54,22 @@
             <el-link @click="showNft(scope.row.uid)">查看持仓</el-link>
           </template>
         </el-table-column>
-        <el-table-column align="center" label="用户余额" width="200">
+        <el-table-column align="center" label="用户余额" width="160">
           <template slot-scope="scope">
             <el-tag @click="editCash(scope.row.uid,scope.row.cash)">{{scope.row.cash}}</el-tag>
             <el-divider
               direction="vertical"
             ></el-divider>
             <el-link @click="showTrade(scope.row.uid)">账户明细</el-link>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="用户积分" width="160">
+          <template slot-scope="scope">
+            <el-tag @click="editCash(scope.row.uid,scope.row.score)">{{scope.row.score}}</el-tag>
+            <el-divider
+              direction="vertical"
+            ></el-divider>
+            <el-link @click="showScore(scope.row.uid)">积分明细</el-link>
           </template>
         </el-table-column>
 
@@ -382,6 +394,40 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="用户积分明细" :visible.sync="score_box" width="1000px"> 
+      <el-table
+        ref="multipleTable"
+        :data="score_list"
+        stripe
+        border
+      >
+        <el-table-column align="center"
+          prop="id"
+          label="系统ID"
+          width="80"
+        ></el-table-column>
+        <el-table-column align="center" label="积分类型">
+          <template slot-scope="scope">
+            <el-tag v-if="scope.row.type == 1" type="success">增加</el-tag>
+            <el-tag v-if="scope.row.type == 2"  type="danger">扣除</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="score" label="积分数"></el-table-column>
+        <el-table-column align="center" prop="memo" label="备注"></el-table-column>
+        <el-table-column align="center"
+          :formatter="dateFormat" property="addtime" label="时间"></el-table-column>
+      </el-table>
+      <div class="pagination-wrap">
+        <el-pagination
+          background
+          :current-page="scorePaginationData.currentPage"
+          :page-size.sync="scorePaginationData.pageSize"
+          @current-change="handleScoreCurrentChange"
+          layout="total, prev, pager, next, jumper"
+          :total="scorePaginationData.total"
+        ></el-pagination>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -439,6 +485,13 @@ export default {
         currentPage: 1,
         pageSize: 10,
       },
+      score_box: false,
+      score_list: [],
+      scorePaginationData: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10,
+      },
     };
   },
   computed: {},
@@ -452,11 +505,40 @@ export default {
           localStorage.dd_token
       );
     },
+    exportScore() {
+      window.open(
+        "/manage/exportuserscore?token=" +
+          localStorage.dd_token
+      );
+    },
     showTrade(uid){
       this.now_uid = uid
       this.trade_list = []
       this.tradePaginationData.currentPage = 1
       this.getTradeData();
+    },
+    showScore(uid){
+      this.now_uid = uid
+      this.score_list = []
+      this.scorePaginationData.currentPage = 1
+      this.getScoreData();
+    },
+    handleScoreCurrentChange(num) {
+      this.scorePaginationData.currentPage = num;
+      this.getScoreData();
+    },
+    async getScoreData(){
+       let res = await this.$http.post("/manage/scorelog", {
+        token: localStorage.dd_token,
+        currentPage: this.scorePaginationData.currentPage,
+        pageSize: this.scorePaginationData.pageSize,
+        uid: this.now_uid
+      });
+      if (res.errcode == 0) {
+        this.score_list = res.data
+        this.scorePaginationData.total = res.total;
+        this.score_box = true;
+      }
     },
 
     showRefer(uid){
