@@ -3,11 +3,11 @@
  */
 let OSS = require("ali-oss");
 let config = {
-  region: "oss-cn-beijing",
   secure: true,
-  accessKeyId: "LTAI5tEXB1ZNDhm9fsqqDseN",
-  accessKeySecret: "qdswXYYmGDiMEtIlocWNkmu0akwFj1",
-  bucket: "334art",
+  region: "oss-cn-beijing",
+  accessKeyId: "LTAImDzzRGgpsDHo",
+  accessKeySecret: "oAMbLEM2KHmfbbXf0jWYmCZr27KcCe",
+  bucket: "qywapp",
 };
 
 /**
