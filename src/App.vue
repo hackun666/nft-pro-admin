@@ -22,6 +22,150 @@ export default {
 </script>
 
 <style lang="less">
+@charset "utf-8";
+/* CSS Document */
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockqueue,
+th,
+td {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  -webkit-text-size-adjust: none !important;
+}
+
+table {
+  border-collapse: collpase;
+  border-spacing: 0;
+}
+
+fieldset,
+img {
+  border: 0;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+  font-style: normal;
+}
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+caption,
+th {
+  text-align: left;
+}
+
+input[type="text"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="tel"],
+textarea,
+button {
+  -webkit-appearance: none;
+}
+.el {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.transition {
+  -webkit-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.el2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.el3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+[v-cloak] {
+  display: none;
+}
+.flex_center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex_start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.flex_end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.flex_between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex_around {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.flex_evenly {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.flex_column {
+  display: flex;
+  flex-direction: column;
+}
 // 此处的lang必须是less，
 // 如果是普通的css的话，最开始，下方全局的样式将不会被换肤插件抽离出来，修改后刷新页面才可以。
 // 所以，只能改成less了，但是是全局的
@@ -41,7 +185,9 @@ body {
 body {
   margin: 0;
   padding: 0;
-      font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   #app {
     height: 100%;
   }
@@ -84,8 +230,8 @@ body {
 }
 
 ::selection {
-    background: #406d91;
-    color: #fff;
+  background: #406d91;
+  color: #fff;
 }
 .flex_left {
   display: flex;
@@ -93,16 +239,16 @@ body {
   align-items: center;
 }
 .ma {
-  margin-left: auto!important;
+  margin-left: auto !important;
 }
 .mb20 {
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 }
 .ml10 {
-  margin-left: 10px!important;
+  margin-left: 10px !important;
 }
 .ml20 {
-  margin-left: 20px!important;
+  margin-left: 20px !important;
 }
 .tips {
   font-size: 12px;

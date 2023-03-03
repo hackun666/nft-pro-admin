@@ -80,9 +80,9 @@ export default {
     let client = new OSS({
       secure: true,
       region: "oss-cn-beijing",
-      accessKeyId: "LTAImDzzRGgpsDHo",
-      accessKeySecret: "oAMbLEM2KHmfbbXf0jWYmCZr27KcCe",
-      bucket: "qywapp",
+      accessKeyId: "",
+      accessKeySecret: "",
+      bucket: "",
     });
     var date = new Date();
     var year = date.getFullYear();

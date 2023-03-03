@@ -178,9 +178,9 @@ export default {
     let client = new OSS({
       secure: true,
       region: "oss-cn-beijing",
-      accessKeyId: "LTAImDzzRGgpsDHo",
-      accessKeySecret: "oAMbLEM2KHmfbbXf0jWYmCZr27KcCe",
-      bucket: "qywapp",
+      accessKeyId: "",
+      accessKeySecret: "",
+      bucket: "",
     });
     var date = new Date();
     var year = date.getFullYear();
@@ -201,8 +201,6 @@ export default {
           console.log(err);
         });
     };
-    // this.editor.config.uploadImgServer =
-    //   "//oss.7192.com/new.php?mod=new&a=upload&c=hrupload";
     this.editor.config.uploadImgMaxSize = 2 * 1024 * 1024; // 1M
     this.editor.config.zIndex = 100;
     this.editor.config.uploadImgAccept = ["jpg", "jpeg", "png", "gif", "bmp"];

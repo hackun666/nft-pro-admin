@@ -2,6 +2,12 @@
 
 数藏系统管理后台
 
+## demo site
+
+http://nft.sdxhan.top/admin_666/
+
+账户：test  密码：test
+
 ## Useful links
 
 Vue-CLI Docs：[https://cli.vuejs.org/zh/config/](https://cli.vuejs.org/zh/config/)  
@@ -38,3 +44,7 @@ npm run build
 
 使用前，请先仔细阅读 Readme 文档并完善上面的必要信息。
 
+
+## Contact Me 
+
+Q: 290805404
