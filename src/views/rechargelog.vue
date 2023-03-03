@@ -121,7 +121,7 @@ export default {
       let res = await this.$http.get("/manage/rechargelog", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         tel: this.tel,
         order_no: this.order_no,
       });

@@ -266,7 +266,7 @@ export default {
         "/manage/exportboxitems?id=" +
           this.nft_id +
           "&token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     DestroyAll(box_id) {
@@ -292,7 +292,7 @@ export default {
     async handleDestroyAll(box_id) {
       let res = await this.$http.post("/manage/destroyallbox", {
         id: box_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("藏品销毁成功");
@@ -320,7 +320,7 @@ export default {
     async handleResetNo(box_id) {
       let res = await this.$http.post("/manage/resetboxno", {
         box_id: box_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("藏品编号信息更新成功");
@@ -339,7 +339,7 @@ export default {
         to_user: this.to_user,
         num: this.num,
         password: this.password,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("操作成功");
@@ -418,7 +418,7 @@ export default {
       let res = await this.$http.post("/manage/savebox", {
         info: this.ruleForm,
         nft_id: this.nft_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: localStorage.userId,
       });
       console.log(res);
@@ -443,7 +443,7 @@ export default {
     },
     async getNft() {
       let res = await this.$http.get("/manage/nftall", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nft_list = res.data;
     },
@@ -459,7 +459,7 @@ export default {
       let res = await this.$http.get("/manage/boxlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         status: this.status,
         id: this.nft_id,
       });
@@ -486,7 +486,7 @@ export default {
     async delebox(id) {
       let res = await this.$http.get("/manage/delebox", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");

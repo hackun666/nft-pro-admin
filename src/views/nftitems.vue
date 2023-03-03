@@ -289,7 +289,7 @@ export default {
     async getNft() {
       let res = await this.$http.get("/manage/nftbox", {
         nft_id: this.nft_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.box_list = res.box_list;
     },
@@ -312,7 +312,7 @@ export default {
     async handleResetNo() {
       let res = await this.$http.post("/manage/resetno", {
         id: this.nft_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("藏品编号信息更新成功");
@@ -336,7 +336,7 @@ export default {
         num: this.num,
         nft_name: this.nft_name,
         password: this.password,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("操作成功");
@@ -352,7 +352,7 @@ export default {
         to_user: this.to_user,
         num: this.num,
         password: this.password,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("操作成功");
@@ -366,7 +366,7 @@ export default {
         "/manage/exportnftrank?id=" +
           this.nft_id +
           "&token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     exportData() {
@@ -374,7 +374,7 @@ export default {
         "/manage/exportnftitems?id=" +
           this.nft_id +
           "&token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     searchData() {
@@ -410,7 +410,7 @@ export default {
     async updateItem(id) {
       let res = await this.$http.post("/manage/updatenftitem", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("NFT信息更新成功");
@@ -474,7 +474,7 @@ export default {
       let res = await this.$http.get("/manage/nftslist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         status: this.status,
         id: this.nft_id,
         tel: this.tel,
@@ -503,7 +503,7 @@ export default {
     async handleDestroyNft(id) {
       let res = await this.$http.post("/manage/destroynftitem", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("藏品销毁成功");
@@ -531,7 +531,7 @@ export default {
     async handleDestroyAll() {
       let res = await this.$http.post("/manage/destroyall", {
         id: this.nft_id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("藏品销毁成功");

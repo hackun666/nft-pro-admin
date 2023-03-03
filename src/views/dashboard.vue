@@ -208,7 +208,7 @@ export default {
   methods: {
     async getHomeData() {
       let res = await this.$http.post("/manage/homedata", {
-      token: localStorage.dd_token,
+      token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.chartData1.rows = res.data1

@@ -92,7 +92,7 @@ export default {
       if (res.errcode == 0) {
         localStorage.userName = res.username;
         localStorage.userId = res.userid;
-        localStorage.dd_token = res.access_token
+        localStorage.nft_pro_token = res.access_token
         this.$router.push("/dashboard");
       } else {
         this.$message.error(res.errmsg);

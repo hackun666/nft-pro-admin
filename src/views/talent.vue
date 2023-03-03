@@ -142,7 +142,7 @@ export default {
     async saveEm(){
       let res = await this.$http.post("/manage/saveem", {
         uid: this.now_uid,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         em_name: this.em_name,
       });
       if (res.errcode == 0) {
@@ -176,7 +176,7 @@ export default {
       let res = await this.$http.get("/manage/talentlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         name: this.name,
         tel: this.tel,
         start_date: this.start_date,

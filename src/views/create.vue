@@ -412,7 +412,7 @@ export default {
   methods: {
     async getArtist() {
       let res = await this.$http.get("/manage/artistall", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.artist = res.artist;
       this.producer = res.producer;
@@ -425,7 +425,7 @@ export default {
     async getData(id) {
       let res = await this.$http.post("/manage/getinfo", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         console.log(res.data);
@@ -534,7 +534,7 @@ export default {
       });
       let res = await this.$http.post("/manage/savenft", {
         info: this.ruleForm,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: localStorage.userId,
       });
       console.log(res);

@@ -122,7 +122,7 @@ export default {
   methods: {
     async getData() {
       let res = await this.$http.post("/manage/getpayconfig", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 200) {
         console.log(res.data);
@@ -144,7 +144,7 @@ export default {
     async saveForm() {
       let res = await this.$http.post("/manage/savepayconfig", {
         info: this.ruleForm,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: localStorage.userId,
       });
       console.log(res);

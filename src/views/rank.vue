@@ -149,7 +149,7 @@ export default {
     },
     async saveRef() {
       let res = await this.$http.post("/manage/saveref", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: this.now_uid,
         ref_num: this.ref_num,
         password: this.password,
@@ -170,7 +170,7 @@ export default {
     },
     async saveData() {
       let res = await this.$http.post("/manage/savereal", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: this.now_uid,
         real_num: this.real_num,
         password: this.password,
@@ -190,7 +190,7 @@ export default {
       }
     },
     exportData() {
-      window.open("/manage/exportrank?token=" + localStorage.dd_token);
+      window.open("/manage/exportrank?token=" + localStorage.nft_pro_token);
     },
     searchData() {
       this.paginationData.currentPage = 1;
@@ -200,7 +200,7 @@ export default {
       let res = await this.$http.get("/manage/rankdata", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         tel: this.tel,
       });
       this.loading = false;

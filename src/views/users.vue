@@ -502,13 +502,13 @@ export default {
     exportRank() {
       window.open(
         "/manage/exportusernftrank?token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     exportScore() {
       window.open(
         "/manage/exportuserscore?token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     showTrade(uid){
@@ -529,7 +529,7 @@ export default {
     },
     async getScoreData(){
        let res = await this.$http.post("/manage/scorelog", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         currentPage: this.scorePaginationData.currentPage,
         pageSize: this.scorePaginationData.pageSize,
         uid: this.now_uid
@@ -553,7 +553,7 @@ export default {
     },
     async getReferData(){
        let res = await this.$http.post("/manage/referlog", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         currentPage: this.referPaginationData.currentPage,
         pageSize: this.referPaginationData.pageSize,
         uid: this.now_uid
@@ -570,7 +570,7 @@ export default {
     },
     async getTradeData(){
        let res = await this.$http.post("/manage/usertrade", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         currentPage: this.tradePaginationData.currentPage,
         pageSize: this.tradePaginationData.pageSize,
         uid: this.now_uid,
@@ -584,7 +584,7 @@ export default {
     },
     async saveCash(){
       let res = await this.$http.post("/manage/savecash", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: this.now_uid,
         cash: this.cash,
         password: this.password
@@ -615,7 +615,7 @@ export default {
     async getUserNft() {
       let res = await this.$http.post("/manage/getusernft", {
         uid: this.uid,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         currentPage: this.nftPaginationData.currentPage,
       });
       if (res.errcode == 0) {
@@ -650,7 +650,7 @@ export default {
     },
     async sendKT() {
       let res = await this.$http.post("/manage/sendkongtou", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         form: this.ruleForm
       });
       if (res.errcode == 0) {
@@ -672,7 +672,7 @@ export default {
     },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall",{
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nftlist = res.data;
     },
@@ -701,7 +701,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/release", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: uid,
       });
       if (res.errcode == 0) {
@@ -739,7 +739,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/block", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: uid,
       });
       if (res.errcode == 0) {
@@ -761,7 +761,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/transsta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: uid,
       });
       if (res.errcode == 0) {
@@ -788,7 +788,7 @@ export default {
       let res = await this.$http.get("/manage/userlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         name: this.name,
         tel: this.tel,
         start_date: this.start_date,

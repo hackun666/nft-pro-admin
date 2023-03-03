@@ -173,7 +173,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/marketsalesta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -204,7 +204,7 @@ export default {
       let res = await this.$http.get("/manage/market", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         name: this.name,
         tel: this.tel,
         min_price: this.min_price,
@@ -233,7 +233,7 @@ export default {
     async delework(id) {
       let res = await this.$http.get("/manage/delenft", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");

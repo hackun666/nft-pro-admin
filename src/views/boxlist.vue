@@ -131,7 +131,7 @@ export default {
       let res = await this.$http.get("/manage/myboxlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         status: this.status,
         id: this.nft_id,
         tel: this.tel
@@ -159,7 +159,7 @@ export default {
     async handleDestroyNft(id) {
       let res = await this.$http.post("/manage/destroybox", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("当前盲盒销毁成功");

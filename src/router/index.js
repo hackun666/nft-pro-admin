@@ -44,7 +44,6 @@ const rank = () => import("@/views/rank");
 const tradelog = () => import("@/views/tradelog");
 const rechargelog = () => import("@/views/rechargelog");
 
-
 const xilie = () => import("@/views/xilie");
 const cashrank = () => import("@/views/cashrank");
 const shopgoods = () => import("@/views/shopgoods");
@@ -395,7 +394,7 @@ router.beforeEach((to, from, next) => {
   // 自动化修改页面标签的 title
   document.title = to.meta.title;
   window.scrollTo(0, 0);
-  const isLogin = localStorage.getItem("dd_token");
+  const isLogin = localStorage.getItem("nft_pro_token");
   // console.log(isLogin)
   if (to.meta.needLogin) {
     if (isLogin) {

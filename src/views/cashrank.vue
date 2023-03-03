@@ -101,7 +101,7 @@ export default {
     exportData() {
       window.open(
         "/manage/exportcashrank?token=" +
-          localStorage.dd_token +
+          localStorage.nft_pro_token +
           "&start_date=" +
           this.start_date +
           "&end_date=" +
@@ -116,7 +116,7 @@ export default {
       let res = await this.$http.get("/manage/cashrank", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         tel: this.tel,
         start_date: this.start_date,
         end_date: this.end_date,

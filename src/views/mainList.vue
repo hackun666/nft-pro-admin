@@ -862,7 +862,7 @@ export default {
     async changeWinSta(id) {
       let res = await this.$http.post("/manage/setwinsta", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("设置成功");
@@ -878,7 +878,7 @@ export default {
         id: this.id,
         currentPage: this.rollPaginationData.currentPage,
         pageSize: this.rollPaginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         tel: this.tel
       });
       if (res.errcode == 0) {
@@ -907,7 +907,7 @@ export default {
     async doSoldOut(id) {
       let res = await this.$http.post("/manage/setsoldout", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("设置成功");
@@ -919,7 +919,7 @@ export default {
     async showWinner(id) {
       let res = await this.$http.post("/manage/winnerlist", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.winner_list = res.data;
@@ -951,7 +951,7 @@ export default {
     async doRoll(id) {
       let res = await this.$http.post("/manage/roll", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("抽签成功");
@@ -985,7 +985,7 @@ export default {
     async updateNft(id) {
       let res = await this.$http.post("/manage/updatenft", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("更新成功");
@@ -1002,7 +1002,7 @@ export default {
       let res = await this.$http.post("/manage/savewhitefromexcel", {
         id: this.id,
         excel: excel,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("保存成功");
@@ -1013,7 +1013,7 @@ export default {
     },
     async getNft() {
       let res = await this.$http.get("/manage/nftall", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nft_list = res.data;
       this.nft_box = res.nft_box;
@@ -1022,7 +1022,7 @@ export default {
     async saveVipRule() {
       let res = await this.$http.post("/manage/saveviprule", {
         id: this.id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         rule: this.ruleForm,
       });
       if (res.errcode == 0) {
@@ -1042,7 +1042,7 @@ export default {
     async saveExchangeRule() {
       let res = await this.$http.post("/manage/saveexchangerule", {
         id: this.id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         rule: this.exchangeForm,
       });
       if (res.errcode == 0) {
@@ -1062,7 +1062,7 @@ export default {
     async saveComboRule() {
       let res = await this.$http.post("/manage/savecomborule", {
         id: this.id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         rule: this.comboForm,
       });
       if (res.errcode == 0) {
@@ -1087,7 +1087,7 @@ export default {
     },
     async getVipRules() {
       let res = await this.$http.post("/manage/viprules", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: this.id,
       });
       if (res.errcode == 0) {
@@ -1096,7 +1096,7 @@ export default {
     },
     async getComboRules() {
       let res = await this.$http.post("/manage/comborules", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: this.id,
       });
       if (res.errcode == 0) {
@@ -1105,7 +1105,7 @@ export default {
     },
     async getExchangeRules() {
       let res = await this.$http.post("/manage/exchangerules", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: this.id,
       });
       if (res.errcode == 0) {
@@ -1115,7 +1115,7 @@ export default {
     async deleteWhite(id) {
       let res = await this.$http.get("/manage/deletewhite", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");
@@ -1127,7 +1127,7 @@ export default {
     async deleteExchangerule(id) {
       let res = await this.$http.get("/manage/deleteexchangerule", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");
@@ -1139,7 +1139,7 @@ export default {
     async deletecomborule(id) {
       let res = await this.$http.get("/manage/deletecomborule", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");
@@ -1151,7 +1151,7 @@ export default {
     async deleterule(id) {
       let res = await this.$http.get("/manage/deleteviprule", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");
@@ -1164,7 +1164,7 @@ export default {
       if (this.tel.length > 0 && this.num > 0) {
         let res = await this.$http.post("/manage/savewhite", {
           id: this.id,
-          token: localStorage.dd_token,
+          token: localStorage.nft_pro_token,
           tel: this.tel,
           num: this.num,
         });
@@ -1189,7 +1189,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/transsta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -1213,7 +1213,7 @@ export default {
     },
     async getWhiteList() {
       let res = await this.$http.post("/manage/whitelist", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         currentPage: this.whitePaginationData.currentPage,
         pageSize: this.whitePaginationData.pageSize,
         id: this.id,
@@ -1238,7 +1238,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/salesta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -1260,7 +1260,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/nftmarketsalesta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -1319,7 +1319,7 @@ export default {
       let res = await this.$http.get("/manage/mainlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         type: this.type,
         title: this.title,
       });
@@ -1346,7 +1346,7 @@ export default {
     async delework(id) {
       let res = await this.$http.get("/manage/delenft", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");

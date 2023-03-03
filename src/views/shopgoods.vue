@@ -221,14 +221,14 @@ export default {
     async getNft() {
       let res = await this.$http.get("/manage/nftall",{
         
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nft_list = res.data;
       this.nft_box = res.nft_box;
     },
     async getmallgoods() {
       let res = await this.$http.post("/manage/getmallgoods", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: this.id,
       });
       if (res.errcode == 0) {
@@ -238,7 +238,7 @@ export default {
     async deletegood(id) {
       let res = await this.$http.get("/manage/deletemallgood", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.$message.success("删除成功");
@@ -250,7 +250,7 @@ export default {
     async saveMallGood() {
       let res = await this.$http.post("/manage/savemallgood", {
         id: this.id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         rule: this.ruleForm,
       });
       if (res.errcode == 0) {
@@ -279,7 +279,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/goodsalesta", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -333,7 +333,7 @@ export default {
       let res = await this.$http.get("/manage/goodslist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.loading = false;
       this.tableData = res.data;
@@ -369,7 +369,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/deleshopgood", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {

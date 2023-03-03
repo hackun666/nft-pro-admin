@@ -173,7 +173,7 @@ export default {
         face: this.face,
         desc: this.desc,
         id: this.id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         this.artistBox = false;
@@ -200,7 +200,7 @@ export default {
       let res = await this.$http.get("/manage/artistlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.loading = false;
       this.tableData = res.data;
@@ -236,7 +236,7 @@ export default {
         background: "rgba(255, 255, 255, 0.5)",
       });
       let res = await this.$http.post("/manage/deleartist", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {

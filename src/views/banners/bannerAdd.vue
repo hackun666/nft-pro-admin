@@ -120,7 +120,7 @@ export default {
     },
     async getData(id) {
       let res = await this.$http.post("/manage/bannerinfo", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -142,7 +142,7 @@ export default {
     },
     async saveForm() {
       let res = await this.$http.post("/manage/savebanner", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         info: this.ruleForm,
       });
       console.log(res)

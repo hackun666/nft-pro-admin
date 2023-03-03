@@ -173,7 +173,7 @@ export default {
     },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nfts = res.data;
     },
@@ -190,7 +190,7 @@ export default {
       let res = await this.$http.get("/manage/tradelog", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         tel: this.tel,
         buyer: this.buyer,
         order_no: this.order_no,

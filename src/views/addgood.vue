@@ -222,7 +222,7 @@ export default {
     },
     async getData(id) {
       let res = await this.$http.post("/manage/goodinfo", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -283,7 +283,7 @@ export default {
       let res = await this.$http.post("/manage/savegood", {
         info: this.ruleForm,
         uid: localStorage.userId,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       console.log(res);
       if (res.errcode == 0) {

@@ -125,7 +125,7 @@ export default {
     async getData(id) {
       let res = await this.$http.post("/manage/getnotice", {
         id: id,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 0) {
         console.log(res.data);
@@ -177,7 +177,7 @@ export default {
     async saveForm() {
       let res = await this.$http.post("/manage/savenotice", {
         info: this.ruleForm,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: localStorage.userId,
       });
       console.log(res);

@@ -55,7 +55,7 @@ export default {
   methods: {
     async getData() {
       let res = await this.$http.post("/manage/getbaseconfig",{
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 200) {
         this.ruleForm = res.data;
@@ -76,7 +76,7 @@ export default {
     async saveForm() {
       let res = await this.$http.post("/manage/savebaseconfig", {
         info: this.ruleForm,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         uid: localStorage.userId,
       });
       console.log(res);

@@ -98,7 +98,7 @@ export default {
       let res = await this.$http.get("/manage/translog", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         sender: this.sender,
         reciver: this.reciver,
       });

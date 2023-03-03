@@ -61,8 +61,8 @@ http.post = (url, data) => {
 // 请求拦截器
 http.interceptors.request.use(config => {
     // 如果本地存储中有token字段， 就为所有请求加上Authorization请求头
-    // if (localStorage.dd_token) {
-    //   config.headers["Authorization"] = `Bearer ${localStorage.dd_token}`
+    // if (localStorage.nft_pro_token) {
+    //   config.headers["Authorization"] = `Bearer ${localStorage.nft_pro_token}`
     // }
     return config;
   },

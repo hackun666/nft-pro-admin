@@ -308,7 +308,7 @@ export default {
         "/manage/exportorders?id=" +
           this.nft_id +
           "&token=" +
-          localStorage.dd_token +
+          localStorage.nft_pro_token +
           "&start_date=" +
           this.start_date +
           "&end_date=" +
@@ -317,7 +317,7 @@ export default {
     },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nfts = res.data;
     },
@@ -341,7 +341,7 @@ export default {
       let res = await this.$http.get("/manage/orderlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         order_no: this.order_no,
         name: this.name,
         tel: this.tel,

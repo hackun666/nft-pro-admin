@@ -250,7 +250,7 @@ export default {
           "&end_date=" +
           this.end_date +
           "&token=" +
-          localStorage.dd_token
+          localStorage.nft_pro_token
       );
     },
     handleSelectionChange(selection) {
@@ -282,7 +282,7 @@ export default {
     },
     async heepayConfirm(id) {
       let res = await this.$http.get("/heepay/transfer", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -314,7 +314,7 @@ export default {
     },
     async approve(id) {
       let res = await this.$http.get("/manage/approvetx", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         id: id,
       });
       if (res.errcode == 0) {
@@ -348,7 +348,7 @@ export default {
     async approveBatch(selstr) {
       this.$message.success("请求成功");
       let res = await this.$http.get("/manage/batchapprovetx", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         ids: selstr,
       });
       if (res.errcode == 0) {
@@ -379,7 +379,7 @@ export default {
       let res = await this.$http.get("/manage/txlog", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         start_date: this.start_date,
         end_date: this.end_date,
         status: this.status,

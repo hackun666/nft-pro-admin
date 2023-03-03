@@ -185,7 +185,7 @@ export default {
     },
     async sendKT() {
       let res = await this.$http.post("/manage/sendkongtou", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         form: this.ruleForm
       });
       if (res.errcode == 0) {
@@ -207,7 +207,7 @@ export default {
     },
     async getNftlist() {
       let res = await this.$http.get("/manage/nftlistall",{
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       this.nftlist = res.data;
     },
@@ -224,7 +224,7 @@ export default {
       let res = await this.$http.get("/manage/nftlist", {
         currentPage: this.paginationData.currentPage,
         pageSize: this.paginationData.pageSize,
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
         name: this.name,
         tel: this.tel,
         start_date: this.start_date,

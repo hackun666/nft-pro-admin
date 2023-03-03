@@ -46,7 +46,7 @@ export default {
   methods: {
     async checkToken(){
       let res = await this.$http.post("/manage/index", {
-        token: localStorage.dd_token,
+        token: localStorage.nft_pro_token,
       });
       if (res.errcode == 40001) {  
         localStorage.clear();
